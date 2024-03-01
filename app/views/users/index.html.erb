@@ -1,0 +1,43 @@
+<p class="h2">ユーザー一覧</p>
+
+<div>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>シングルスWin</th>
+        <th>シングルスLose</th>
+        <th>シングルス勝率</th>
+        <th>ダブルスWin</th>
+        <th>ダブルスLose</th>
+        <th>ダブルス勝率</th>
+        <th>総合Win</th>
+        <th>総合Lose</th>
+        <th>総合勝率</th>
+        </tr>
+    </thead>
+    <tbody>
+      <% @user.each do |user| %>
+        <tr class="clickable-row" data-href="<%= user_path(id: user.id) %>">
+          <td><%= user.name %></td>
+          <td><%= user.single_win %></td>
+          <td><%= user.single_lose %></td>
+          <td><%= user.single_lose != 0 ? user.single_win.to_f / user.single_lose.to_f : user.single_win %></td>
+          <td><%= user.double_win %></td>
+          <td><%= user.double_lose %></td>
+          <td><%= user.double_lose != 0 ? user.double_win.to_f / user.double_lose.to_f : user.double_win %></td>
+          <td><%= user.single_win + user.double_win %></td>
+          <td><%= user.single_lose + user.double_lose %></td>
+          <td><%= user.single_lose + user.double_lose != 0 ? (user.single_win.to_f + user.double_win.to_f) / (user.single_lose.to_f + user.double_lose.to_f) : user.single_win.to_f + user.double_win.to_f %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<%= paginate @user, theme: 'bootstrap-5'  %>
+
+<style scoped>
+tbody tr:hover {
+    background-color:#a9ceec ;
+}
+</style>

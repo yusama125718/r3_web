@@ -1,0 +1,35 @@
+<p class="h2">試合ログ</p>
+<br>
+<div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>記録日時</th>
+        <th>Red1</th>
+        <th>Red2</th>
+        <th>RedScore</th>
+        <th>Blue1</th>
+        <th>Blue2</th>
+        <th>BlueScore</th>
+        <th>Winner</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @logs.each do |logs| %>
+        <tr>
+          <td><%= logs.created_at %></td>
+          <td><%= logs.class == Single ? logs.redname : logs.redname1 %></td>
+          <td><%= logs.class == Double ? logs.redname2 : "" %></td>
+          <td><%= logs.redscore %></td>
+
+          <td><%= logs.class == Single ? logs.bluename : logs.bluename1 %></td>
+          <td><%= logs.class == Double ? logs.bluename2 : "" %></td>
+          <td><%= logs.bluescore %></td>
+
+          <td><%= logs.class == Single ? logs.winner : logs.winner1 %><%= logs.class == Double ? logs.winner2 : "" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<%= paginate @logs, theme: 'bootstrap-5'  %>

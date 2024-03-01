@@ -1,0 +1,2 @@
+class Double < ApplicationRecord
+end

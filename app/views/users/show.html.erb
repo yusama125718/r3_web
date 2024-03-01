@@ -1,0 +1,59 @@
+<p class="h2">ユーザーデータ</p>
+<p class="h4"><%= @user.name %></p>
+<br>
+<div>
+  <p class="h4">シングルス</p>
+  <table class="table table-striped">
+    <tbody>
+      <tr>
+        <td>Win</td>
+        <td><%= @user.single_win %></td>
+      </tr>
+      <tr>
+        <td>Lose</td>
+        <td><%= @user.single_lose %></td>
+      </tr>
+      <tr>
+        <td>勝率</td>
+        <td><%= @user.single_lose == 0 ? @user.single_win.to_f / @user.single_lose.to_f : @user.single_win %></td>
+      </tr>
+    </tbody>
+  </table>
+  <br>
+  <p class="h4">ダブルス</p>
+  <table class="table table-striped">
+    <tbody>
+      <tr>
+        <td>Win</td>
+        <td><%= @user.double_win %></td>
+      </tr>
+      <tr>
+        <td>Lose</td>
+        <td><%= @user.double_lose %></td>
+      </tr>
+      <tr>
+        <td>勝率</td>
+        <td><%= @user.double_lose == 0 ? @user.double_win.to_f / @user.double_lose.to_f : @user.double_win %></td>
+      </tr>
+    </tbody>
+  </table>
+  <br>
+  <p class="h4">総合</p>
+  <table class="table table-striped">
+    <tbody>
+      <tr>
+        <td>Win</td>
+        <td><%= @user.single_win + @user.double_win %></td>
+      </tr>
+      <tr>
+        <td>Lose</td>
+        <td><%= @user.single_lose + @user.double_lose %></td>
+      </tr>
+      <tr>
+        <td>勝率</td>
+        <td><%= @user.single_lose + @user.double_lose == 0 ? (@user.single_win.to_f + @user.double_win.to_f) / (@user.single_lose.to_f + @user.double_lose.to_f) : @user.single_win + @user.double_win %></td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>

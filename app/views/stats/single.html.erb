@@ -1,0 +1,25 @@
+<p class="h2">シングルス 勝ち数ランキング</p>
+<br>
+<div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Win</th>
+        <th>Lose</th>
+        <th>勝率</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @stats.each do |stats| %>
+        <tr>
+          <td><%= stats.name %></td>
+          <td><%= stats.single_win %></td>
+          <td><%= stats.single_lose %></td>
+          <td><%= stats.single_lose != 0 ? stats.single_win.to_f / stats.single_lose.to_f : stats.single_win %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<%= paginate @stats, theme: 'bootstrap-5'  %>

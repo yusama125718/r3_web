@@ -1,0 +1,18 @@
+current directory: /rails_app/vendor/bundle/ruby/3.2.0/gems/bindex-0.8.1/ext/skiptrace
+/usr/local/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /rails_app/vendor/bundle/ruby/3.2.0/gems/bindex-0.8.1/ext/skiptrace
+make DESTDIR\= sitearchdir\=./.gem.20240225-1-wt4srz sitelibdir\=./.gem.20240225-1-wt4srz clean
+
+current directory: /rails_app/vendor/bundle/ruby/3.2.0/gems/bindex-0.8.1/ext/skiptrace
+make DESTDIR\= sitearchdir\=./.gem.20240225-1-wt4srz sitelibdir\=./.gem.20240225-1-wt4srz
+compiling cruby.c
+linking shared-object skiptrace/internal/cruby.so
+
+current directory: /rails_app/vendor/bundle/ruby/3.2.0/gems/bindex-0.8.1/ext/skiptrace
+make DESTDIR\= sitearchdir\=./.gem.20240225-1-wt4srz sitelibdir\=./.gem.20240225-1-wt4srz install
+/usr/bin/install -c -m 0755 cruby.so ./.gem.20240225-1-wt4srz/skiptrace/internal
+
+current directory: /rails_app/vendor/bundle/ruby/3.2.0/gems/bindex-0.8.1/ext/skiptrace
+make DESTDIR\= sitearchdir\=./.gem.20240225-1-wt4srz sitelibdir\=./.gem.20240225-1-wt4srz clean

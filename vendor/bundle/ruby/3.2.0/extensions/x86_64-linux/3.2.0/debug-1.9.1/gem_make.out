@@ -1,0 +1,19 @@
+current directory: /rails_app/vendor/bundle/ruby/3.2.0/gems/debug-1.9.1/ext/debug
+/usr/local/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /rails_app/vendor/bundle/ruby/3.2.0/gems/debug-1.9.1/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20240225-1-6kd41y sitelibdir\=./.gem.20240225-1-6kd41y clean
+
+current directory: /rails_app/vendor/bundle/ruby/3.2.0/gems/debug-1.9.1/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20240225-1-6kd41y sitelibdir\=./.gem.20240225-1-6kd41y
+compiling debug.c
+compiling iseq_collector.c
+linking shared-object debug/debug.so
+
+current directory: /rails_app/vendor/bundle/ruby/3.2.0/gems/debug-1.9.1/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20240225-1-6kd41y sitelibdir\=./.gem.20240225-1-6kd41y install
+/usr/bin/install -c -m 0755 debug.so ./.gem.20240225-1-6kd41y/debug
+
+current directory: /rails_app/vendor/bundle/ruby/3.2.0/gems/debug-1.9.1/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20240225-1-6kd41y sitelibdir\=./.gem.20240225-1-6kd41y clean

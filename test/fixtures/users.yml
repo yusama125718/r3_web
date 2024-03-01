@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  create_at: 2024-02-27 02:31:17
+  update_at: 2024-02-27 02:31:17
+  win: 1
+  lose: 1
+
+two:
+  name: MyString
+  create_at: 2024-02-27 02:31:17
+  update_at: 2024-02-27 02:31:17
+  win: 1
+  lose: 1
