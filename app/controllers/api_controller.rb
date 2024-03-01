@@ -33,7 +33,7 @@ class ApiController < ApplicationController
       if !Single.exists?(guid: guid)
         winner_name = winner == "red" ? red[0] ? red[0] : red[1] : winner == "blue" ? blue[0] ? blue[0] : blue[1] : ""
         loser_name = winner == "red" ? blue[0] ? blue[0] : blue[1] : winner == "blue" ? red[0] ? red[0] : red[1] : ""
-        Single.create(redname: red[0] ? red[0] : red[1], bluename: blue[0] ? blue[0] : blue[1], redscore: score_red, bluescore: score_blue, winner: winner, )
+        Single.create(redname: red[0] ? red[0] : red[1], bluename: blue[0] ? blue[0] : blue[1], redscore: score_red, bluescore: score_blue, winner: winner, hopping_allowed: hopping_allowed, game_double: game_double, game_ex_speed: game_ex_speed, game_boundaries: game_boundaries, score_max: score_max)
         if winner != "none"
           w = User.find_by(name: winner_name)
           w.single_win += 1
@@ -48,7 +48,7 @@ class ApiController < ApplicationController
       if !Double.exists?(guid: guid)
         winner_name = winner == "red" ? [red[0], red[1]] : winner == "blue" ? [blue[0], blue[1]] : ""
         loser_name = winner == "red" ? [blue[0], blue[1]] : winner == "blue" ? [red[0], red[1]] : ""
-        Double.create(redname1: red[0], redname2: red[1], bluename1: blue[0], bluename2: blue[1], redscore: score_red, bluescore: score_blue, winner1: winner_name[0], winner2: winner_name[1])
+        Double.create(redname1: red[0], redname2: red[1], bluename1: blue[0], bluename2: blue[1], redscore: score_red, bluescore: score_blue, winner1: winner_name[0], winner2: winner_name[1], hopping_allowed: hopping_allowed, game_double: game_double, game_ex_speed: game_ex_speed, game_boundaries: game_boundaries, score_max: score_max)
         if winner != "none"
           w = User.find_by(name: winner_name[0])
           w.double_win += 1
