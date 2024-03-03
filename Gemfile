@@ -75,3 +75,7 @@ gem "mini_racer"
 
 gem 'kaminari', '~> 0.17.0'
 gem 'bootstrap5-kaminari-views', '~> 0.0.1'
+
+gem 'ransack'
+
+gem 'config'

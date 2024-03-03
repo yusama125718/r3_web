@@ -1,7 +1,82 @@
 <p class="h2">試合ログ</p>
 <br>
+
+<div class="accordion mb-3" id="accordionExample">
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+        絞り込み/検索
+      </button>
+    </h2>
+    <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+        <%= search_form_for @q, url: logs_stats_path do |f| %>
+          <div class="row g-4 mb-3">
+            <div class="col-auto">
+              <%= f.search_field :redname1_or_redname2_or_bluename1_or_bluename2_cont, class: 'col-form-label', placeholder: 'ユーザー名' %>
+            </div>    
+            <div class="col-auto">
+              <%= f.submit '検索', class: 'btn btn-primary' %>
+            </div>
+            <div class="col-auto">
+              <%= link_to "リセット", logs_stats_path(@page), class: "btn btn-outline-secondary" %>
+            </div>
+          </div>
+          <label>シーズン</label>
+          <div class="mb-3">
+            <%= f.select :season, Season.all.map{|s| [s.name, s.id]}, selected: @season.id %>
+          </div>
+          <label>人数</label>
+          <div class=".d-flex mb-3">
+            <%= f.check_box :is_single_eq_any, { multiple: true, include_hidden: false }, true %>
+            <label>シングルス</label>
+            <%= f.check_box :is_single_eq_any, { multiple: true, include_hidden: false }, false %>
+            <label>ダブルス</label>
+          </div>
+          <label>ルール</label>
+          <div class=".d-flex">
+            <%= f.check_box :hopping_allowed_eq_any, { multiple: true, include_hidden: false }, true %>
+            <label>ジャンプあり</label>
+            <%= f.check_box :hopping_allowed_eq_any, { multiple: true, include_hidden: false }, false %>
+            <label>ジャンプ無し</label>
+          </div>
+          <div class=".d-flex">
+            <%= f.check_box :game_double_eq_any, { multiple: true, include_hidden: false }, true %>
+            <label>ダブルディスク</label>
+            <%= f.check_box :game_double_eq_any, { multiple: true, include_hidden: false }, false %>
+            <label>シングルディスク</label>
+          </div>
+          <div class=".d-flex">
+            <%= f.check_box :game_boundaries_eq_any, { multiple: true, include_hidden: false }, true %>
+            <label>壁あり</label>
+            <%= f.check_box :game_boundaries_eq_any, { multiple: true, include_hidden: false }, false %>
+            <label>壁なし</label>
+          </div>
+          <div class=".d-flex mb-3">
+            <%= f.check_box :score_max_eq_any, { multiple: true, include_hidden: false }, "1" %>
+            <label>1点</label>
+            <%= f.check_box :score_max_eq_any, { multiple: true, include_hidden: false }, "5" %>
+            <label>5点</label>
+            <%= f.check_box :score_max_eq_any, { multiple: true, include_hidden: false }, "10" %>
+            <label>10点</label>
+          </div>
+          <label>EX Speed</label>
+          <div class=".d-flex">
+            <%= f.check_box :game_ex_speed_eq_any, { multiple: true, include_hidden: false }, "off" %>
+            <label>OFF</label>
+            <%= f.check_box :game_ex_speed_eq_any, { multiple: true, include_hidden: false }, "ex1" %>
+            <label>EX1</label>
+            <%= f.check_box :game_ex_speed_eq_any, { multiple: true, include_hidden: false }, "ex2" %>
+            <label>EX2</label>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div>
-  <table class="table">
+  <table class="table mb-3">
     <thead>
       <tr>
         <th>記録日時</th>
@@ -12,24 +87,35 @@
         <th>Blue2</th>
         <th>BlueScore</th>
         <th>Winner</th>
+        <th>ルール</th>
+        <th>ジャンプ</th>
+        <th>Ex_Speed</th>
+        <th>人数</th>
       </tr>
     </thead>
     <tbody>
       <% @logs.each do |logs| %>
         <tr>
-          <td><%= logs.created_at %></td>
-          <td><%= logs.class == Single ? logs.redname : logs.redname1 %></td>
-          <td><%= logs.class == Double ? logs.redname2 : "" %></td>
+          <td><%= l logs.created_at %></td>
+          <td><%= logs.redname1 %></td>
+          <td><%= logs.redname2 %></td>
           <td><%= logs.redscore %></td>
 
-          <td><%= logs.class == Single ? logs.bluename : logs.bluename1 %></td>
-          <td><%= logs.class == Double ? logs.bluename2 : "" %></td>
+          <td><%= logs.bluename1 %></td>
+          <td><%= logs.bluename2 %></td>
           <td><%= logs.bluescore %></td>
 
-          <td><%= logs.class == Single ? logs.winner : logs.winner1 %><%= logs.class == Double ? logs.winner2 : "" %></td>
+          <td><%= logs.winner1 %><%= logs.winner2.blank? ? "" : " / " + logs.winner2 %></td>
+
+          <td><%= logs.game_boundaries ? "壁あり" : "壁なし" %><%= logs.game_double ? "ダブル" : "シングル" %><%= logs.score_max %>点</td>
+          <td><%= logs.hopping_allowed ? "ON" : "OFF" %></td>
+          <td><%= logs.game_ex_speed %></td>
+          <td><%= logs.is_single ? "シングルス" : "ダブルス" %></td>
         </tr>
       <% end %>
     </tbody>
   </table>
 </div>
-<%= paginate @logs, theme: 'bootstrap-5'  %>
+<div class="mb-3">
+  <%= paginate @logs, theme: 'bootstrap-5'  %>
+</div>

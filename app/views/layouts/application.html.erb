@@ -20,7 +20,7 @@
       </div>
     </header>
     <div class="d-flex flex-row w-100" style="height: calc(100% - 60px)">
-      <nav class="bg-secondary" style="width: 200px;">
+      <nav class="bg-secondary " style="width: 200px;">
         <ul class="nav flex-column m-0 p-3">
           <li class="nav-item mb-2">
             <a class="nav-link active" aria-current="page" href="/">Home</a>
@@ -29,21 +29,28 @@
             <a class="nav-link" href="/about">about</a>
           </li>
           <li class="nav-item mb-2">
-            <a class="nav-link" href="<%= stats_single_path %>">シングルス</a>
+            <a class="nav-link" href="<%= nw_s_stats_path %>">壁なしシングル</a>
           </li>
           <li class="nav-item mb-2">
-            <a class="nav-link" href="<%= stats_double_path %>">ダブルス</a>
+            <a class="nav-link" href="<%= nw_d_stats_path %>">壁なしダブル</a>
+          </li>
+          <li class="nav-item mb-2">
+            <a class="nav-link" href="<%= ow_s_stats_path %>">壁ありシングル</a>
+          </li>
+          <li class="nav-item mb-2">
+            <a class="nav-link" href="<%= ow_d_stats_path %>">壁ありダブル</a>
           </li>
           <li class="nav-item mb-2">
             <a class="nav-link" href="<%= users_path %>">ユーザー一覧</a>
           </li>
           <li class="nav-item mb-2">
-            <a class="nav-link" href="<%= stats_logs_path %>">試合ログ</a>
+            <a class="nav-link" href="<%= logs_stats_path %>">試合ログ</a>
           </li>
         </ul>
       </nav>
-      <main class="w-100 bg-light" style="padding: 10px;">
+      <main class="w-100 bg-light overflow-y-scroll" style="margin: 10px;">
         <%= yield %>
+        <br>
       </main>
     </div>
   </body>

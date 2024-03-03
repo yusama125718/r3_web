@@ -1,4 +1,4 @@
-<p class="h2">ユーザー一覧</p>
+<p class="h2">壁なしダブル 勝ち数ランキング</p>
 <br>
 <div class="accordion mb-3" id="accordionExample">
   <div class="accordion-item">
@@ -9,7 +9,7 @@
     </h2>
     <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
       <div class="accordion-body">
-        <%= form_for :season, url: users_path, method: :get do |f| %>
+        <%= form_for :season, url: nw_d_stats_path, method: :get do |f| %>
           <div class="row g-4 mb-3">
             <div class="col-auto">
               <%= f.select :season, Season.all.map{|s| [s.name, s.id]}, selected: @season.id %>
@@ -18,7 +18,7 @@
               <%= f.submit '表示', class: 'btn btn-primary' %>
             </div>
             <div class="col-auto">
-              <%= link_to "リセット", users_path(@page), class: "btn btn-outline-secondary" %>
+              <%= link_to "リセット", nw_d_stats_path(@page), class: "btn btn-outline-secondary" %>
             </div>
           </div>
         <% end %>
@@ -27,33 +27,31 @@
   </div>
 </div>
 <div>
-  <table class="table table-hover">
+  <table class="table">
     <thead>
       <tr>
         <th>Name</th>
-        <th>壁なしシングル</th>
-        <th>壁ありシングル</th>
-        <th>壁なしダブル</th>
-        <th>壁ありダブル</th>
-        <th>その他ルール</th>
+        <th>レート</th>
+        <th>Win</th>
+        <th>Lose</th>
+        <th>勝率</th>
       </tr>
     </thead>
     <tbody>
-      <% @user.each do |user| %>
-        <% info = @info.find_by(users: user) %>
-        <tr class="clickable-row" data-href="<%= user_show_path(user_id: user, info: info) %>">
+      <% @stats.each do |stats| %>
+        <% info = @info.find_by(users: stats) %>
+        <tr class="clickable-row" data-href="<%= user_show_path(user_id: stats, info: info) %>">
           <td><%= info.name %></td>
-          <td><%= user.nw_s_rate %></td>
-          <td><%= user.ow_s_rate %></td>
-          <td><%= user.nw_d_rate %></td>
-          <td><%= user.ow_d_rate %></td>
-          <td><%= user.other_rate %></td>
+          <td><%= stats.nw_d_rate %></td>
+          <td><%= stats.nw_d_win %></td>
+          <td><%= stats.nw_d_lose %></td>
+          <td><%= stats.nw_d_lose != 0 ? stats.nw_d_win.to_f / stats.nw_d_lose.to_f : stats.nw_d_win %></td>
         </tr>
       <% end %>
     </tbody>
   </table>
 </div>
-<%= paginate @user, theme: 'bootstrap-5'  %>
+<%= paginate @stats, theme: 'bootstrap-5'  %>
 
 <style scoped>
 tbody tr:hover {

@@ -1,6 +1,6 @@
 require "test_helper"
 
-class DoubleTest < ActiveSupport::TestCase
+class SeasonTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

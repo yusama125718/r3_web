@@ -1,18 +1,30 @@
 Rails.application.routes.draw do
   root :to => 'r3log#top'
-  get 'stats/single'
-  get 'stats/double'
-  get 'stats/logs'
   get 'about' => "r3log#about"
   post '/api/new', to: 'api#create'
 
-  resources :users do
+  resources :stats, only: [:logs, :nw_d, :nw_s, :ow_d, :ow_s] do
+    collection do
+      get :logs
+      get :nw_d
+      get :nw_s
+      get :ow_d
+      get :ow_s
+    end
+  end
+
+  resources :users, param: :id, only: [:index, :snow] do
     collection do
       get :index
     end
-    member do
-      get :show
+    resources :show, param: :info, only: [:index] do
+      member do
+        get :index, to: "users#show", param: :season
+      end
     end
+    # member do
+    #   get :show, param: :id, param: :info
+    # end
   end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

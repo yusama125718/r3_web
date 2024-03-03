@@ -10,50 +10,69 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_01_081853) do
-  create_table "doubles", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+ActiveRecord::Schema[7.1].define(version: 2024_02_27_023117) do
+  create_table "matches", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "guid", null: false
     t.string "redname1"
     t.string "redname2"
     t.string "bluename1"
     t.string "bluename2"
-    t.integer "redscore"
-    t.integer "bluescore"
+    t.integer "redscore", null: false
+    t.integer "bluescore", null: false
     t.string "winner1"
     t.string "winner2"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "guid"
+    t.string "reddiff1"
+    t.string "reddiff2"
+    t.string "bluediff1"
+    t.string "bluediff2"
+    t.boolean "is_single", default: false, null: false
     t.boolean "hopping_allowed", default: false, null: false
     t.boolean "game_double", default: false, null: false
-    t.string "game_ex_speed"
     t.boolean "game_boundaries", default: false, null: false
-    t.string "score_max"
+    t.string "game_ex_speed", null: false
+    t.string "score_max", null: false
+    t.bigint "season_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["season_id"], name: "index_matches_on_season_id"
   end
 
-  create_table "singles", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "redname"
-    t.string "bluename"
-    t.integer "redscore"
-    t.integer "bluescore"
-    t.string "winner"
+  create_table "seasons", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "finished_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "guid"
-    t.boolean "hopping_allowed", default: false, null: false
-    t.boolean "game_double", default: false, null: false
-    t.string "game_ex_speed"
-    t.boolean "game_boundaries", default: false, null: false
-    t.string "score_max"
+  end
+
+  create_table "user_infos", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "now_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "name"
+    t.bigint "user_info_id"
+    t.integer "nw_s_win", default: 0, null: false
+    t.integer "nw_s_lose", default: 0, null: false
+    t.integer "nw_s_rate", default: 0, null: false
+    t.integer "ow_s_win", default: 0, null: false
+    t.integer "ow_s_lose", default: 0, null: false
+    t.integer "ow_s_rate", default: 0, null: false
+    t.integer "nw_d_win", default: 0, null: false
+    t.integer "nw_d_lose", default: 0, null: false
+    t.integer "nw_d_rate", default: 0, null: false
+    t.integer "ow_d_win", default: 0, null: false
+    t.integer "ow_d_lose", default: 0, null: false
+    t.integer "ow_d_rate", default: 0, null: false
+    t.integer "other_win", default: 0, null: false
+    t.integer "other_lose", default: 0, null: false
+    t.integer "other_rate", default: 0, null: false
+    t.bigint "season_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "single_win"
-    t.integer "single_lose"
-    t.integer "double_win"
-    t.integer "double_lose"
+    t.index ["season_id"], name: "index_users_on_season_id"
+    t.index ["user_info_id"], name: "index_users_on_user_info_id"
   end
 
 end

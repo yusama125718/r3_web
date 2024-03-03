@@ -1,14 +1,30 @@
 class StatsController < ApplicationController
-  def single
-    @stats = User.all.order(single_win: :desc).page(params[:page])
-    # @stats = Kaminari.paginate_array(User.find_by_sql("SELECT id, name, single_win, single_lose, RANK() OVER(ORDER BY (single_win / single_lose)) AS rank_num FROM users"), limit: 5, offset: 0, total_count: 100)
+  def nw_s
+    @season = params[:season].blank? || params[:season][:season].blank? ? Season.find_by(finished_at: nil) : Season.find_by(id: params[:season][:season])
+    @stats = @season.users.order(nw_s_rate: :desc, nw_s_win: :desc).page(params[:page])
+    @info = UserInfo.joins(:users).where(users: {season: @season})
   end
 
-  def double
-    @stats = User.all.order(double_win: :desc).page(params[:page])
+  def nw_d
+    @season = params[:season].blank? || params[:season][:season].blank? ? Season.find_by(finished_at: nil) : Season.find_by(id: params[:season][:season])
+    @stats = @season.users.order(nw_d_rate: :desc, nw_d_win: :desc).page(params[:page])
+    @info = UserInfo.joins(:users).where(users: {season: @season})
   end
 
+  def ow_s
+    @season = params[:season].blank? || params[:season][:season].blank? ? Season.find_by(finished_at: nil) : Season.find_by(id: params[:season][:season])
+    @stats = @season.users.order(ow_s_rate: :desc, ow_s_win: :desc).page(params[:page])
+    @info = UserInfo.joins(:users).where(users: {season: @season})
+  end
+
+  def ow_d
+    @season = params[:season].blank? || params[:season][:season].blank? ? Season.find_by(finished_at: nil) : Season.find_by(id: params[:season][:season])
+    @stats = @season.users.order(ow_d_rate: :desc, ow_d_win: :desc).page(params[:page])
+    @info = UserInfo.joins(:users).where(users: {season: @season})
+  end
   def logs
-    @logs = Single.all.merge(Double.all).order(created_at: :desc).page(params[:page])
+    @season = params[:q].blank? || params[:q][:season].blank? ? Season.find_by(finished_at: nil) : Season.find_by(id: params[:q][:season])
+    @q = @season.matches.ransack(params[:q])
+    @logs = @q.result.order(created_at: :desc).page(params[:page])
   end
 end
