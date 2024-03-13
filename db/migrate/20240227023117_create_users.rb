@@ -1,7 +1,7 @@
 class CreateUsers < ActiveRecord::Migration[7.1]
   def change
     create_table :users do |t|
-      t.belongs_to :user_info
+      t.string :name, null:false
       t.integer :nw_s_win, default: 0, null:false
       t.integer :nw_s_lose, default: 0, null:false
       t.integer :nw_s_rate, default: 0, null:false
@@ -14,16 +14,20 @@ class CreateUsers < ActiveRecord::Migration[7.1]
       t.integer :ow_d_win, default: 0, null:false
       t.integer :ow_d_lose, default: 0, null:false
       t.integer :ow_d_rate, default: 0, null:false
-      t.integer :other_win, default: 0, null:false
-      t.integer :other_lose, default: 0, null:false
-      t.integer :other_rate, default: 0, null:false
       t.belongs_to :season
+      t.belongs_to :user_info
       t.timestamps
     end
 
     create_table :user_infos do |t|
       t.string :name, null:false
-      t.string :now_name
+      t.timestamps
+    end
+
+    create_table :name_histories do |t|
+      t.string :name, null:false
+      t.boolean :in_use, default: false, null: false
+      t.belongs_to :user_info
       t.timestamps
     end
 

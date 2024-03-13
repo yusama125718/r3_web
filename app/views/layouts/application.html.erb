@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="h-100">
+<html class="h-100 container-fluid">
   <head>
     <title>R3 Log</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -10,45 +10,82 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="h-100">
-    <header class="w-100 d-flex justify-content-between align-items-center px-3  bg-dark border-bottom border-bottom-dark" data-bs-theme="dark" style="height: 60px;">
+  <body class="h-100 row no-gutters">
+    <header class="w-100 d-flex justify-content-between align-items-center px-3 bg-dark border-bottom border-bottom-dark" data-bs-theme="dark" style="height: 60px;">
       <ul class="navbar-nav d-flex flex-row">
         <li class="mx-3 text-muted active"><a href="/" class="nav-link --bs-primary-border-subtle" style="font-size: 20px;">R3 Log</a></li>
       </ul>
-      <div class="navbar-brand toggle-menu">
-        <button class="btn btn-light btn-sm bg-dark" id="toggle"><i class="navbar-toggler-icon"></i></button>
+      <div class="d-flex flex-row navbar-brand">
+        <div class="toggle-menu col-md-5">
+          <button class="btn btn-light btn-sm bg-dark" id="toggle"><i class="navbar-toggler-icon"></i></button>
+        </div>
       </div>
     </header>
-    <div class="d-flex flex-row w-100" style="height: calc(100% - 60px)">
+    <div class="d-flex flex-row w-100 justify-content" style="height: calc(100% - 60px)">
       <nav class="bg-secondary " style="width: 200px;">
         <ul class="nav flex-column m-0 p-3">
           <li class="nav-item mb-2">
             <a class="nav-link active" aria-current="page" href="/">Home</a>
           </li>
           <li class="nav-item mb-2">
-            <a class="nav-link" href="/about">about</a>
+            <a class="nav-link" href="/about">About</a>
           </li>
           <li class="nav-item mb-2">
-            <a class="nav-link" href="<%= nw_s_stats_path %>">壁なしシングル</a>
+            <a class="nav-link" href="<%= nw_s_stats_path %>"><%= t "rule.no_wall_single" %></a>
           </li>
           <li class="nav-item mb-2">
-            <a class="nav-link" href="<%= nw_d_stats_path %>">壁なしダブル</a>
+            <a class="nav-link" href="<%= nw_d_stats_path %>"><%= t "rule.no_wall_double" %></a>
           </li>
           <li class="nav-item mb-2">
-            <a class="nav-link" href="<%= ow_s_stats_path %>">壁ありシングル</a>
+            <a class="nav-link" href="<%= ow_s_stats_path %>"><%= t "rule.on_wall_single" %></a>
           </li>
           <li class="nav-item mb-2">
-            <a class="nav-link" href="<%= ow_d_stats_path %>">壁ありダブル</a>
+            <a class="nav-link" href="<%= ow_d_stats_path %>"><%= t "rule.on_wall_double" %></a>
           </li>
           <li class="nav-item mb-2">
-            <a class="nav-link" href="<%= users_path %>">ユーザー一覧</a>
+            <a class="nav-link" href="<%= users_path %>"><%= t "nav.users" %></a>
           </li>
           <li class="nav-item mb-2">
-            <a class="nav-link" href="<%= logs_stats_path %>">試合ログ</a>
+            <a class="nav-link" href="<%= logs_stats_path %>"><%= t "nav.logs" %></a>
+          </li>
+          <% if logged_in? %>
+            <li class="nav-item mb-2">
+              <a class="nav-link active" aria-current="page" href="<%= season_admin_index_path %>"><%= t "nav.season" %></a>
+            </li>
+            <li class="nav-item mb-2">
+              <br>
+            </li>
+            <li class="nav-item mb-2">
+              <a class="nav-link active" aria-current="page" href="<%= logout_path %>"><%= t "nav.logout" %></a>
+            </li>
+          <% else %>
+            <li class="nav-item mb-2">
+              <br>
+            </li>
+            <li class="nav-item mb-2">
+              <a class="nav-link active" aria-current="page" href="<%= login_path %>"><%= t "nav.login" %></a>
+            </li>
+          <% end %>
+          <li class="nav-item mb-2">
+            <div class="dropdown col-md-10 .offset-md-4">
+              <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <%= t "language"%>
+              </button>
+              <ul class="dropdown-menu bg-dark-subtle">
+                <li><%= link_to '日本語', url_for(locale: :ja) %></li>
+                <li><%= link_to 'English', url_for(locale: :en) %></li>
+              </ul>
+            </div>
           </li>
         </ul>
       </nav>
       <main class="w-100 bg-light overflow-y-scroll" style="margin: 10px;">
+        <% if flash[:warning] %>
+          <div class="alert alert-warning" role="alert"><%= flash[:warning] %></div>
+        <% end %>
+        <% if flash[:success] %>
+          <div class="alert alert-success" role="alert"><%= flash[:success] %></div>
+        <% end %>
         <%= yield %>
         <br>
       </main>

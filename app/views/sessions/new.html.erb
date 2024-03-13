@@ -1,0 +1,14 @@
+<h1><%= t "nav.login" %></h1>
+<%= form_for(:session, url: login_path) do |f| %>
+  <div class="mb-3">
+    <%= f.label :name %>
+    <br>
+    <%= f.text_field :name, class: 'col-form-label' %>
+  </div>
+  <div class="mb-3">
+    <%= f.label :password %>
+    <br>
+    <%= f.password_field :password, class: 'col-form-label' %>
+  </div>
+  <%= f.submit (t "nav.login"), class: 'btn btn-primary' %>
+<% end %>

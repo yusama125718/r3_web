@@ -1,24 +1,24 @@
-<p class="h2">壁なしシングル 勝ち数ランキング</p>
+<p class="h2"><%= t "rule.on_wall_single" %> <%= t "stats.rank_title" %></p>
 <br>
 <div class="accordion mb-3" id="accordionExample">
   <div class="accordion-item">
     <h2 class="accordion-header">
       <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-        シーズン選択
+        <%= t "season.select" %>
       </button>
     </h2>
     <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
       <div class="accordion-body">
-        <%= form_for :season, url: ow_s_stats_path, method: :get do |f| %>
+        <%= form_for :season, url: nw_d_stats_path, method: :get do |f| %>
           <div class="row g-4 mb-3">
             <div class="col-auto">
-              <%= f.select :season, Season.all.map{|s| [s.name, s.id]}, selected: @season.id %>
+              <%= f.select :season, Season.all.map{|s| [s.name, s.id]}, {selected: @season.id}, {class: "form-control col-6"} %>
             </div>    
             <div class="col-auto">
-              <%= f.submit '表示', class: 'btn btn-primary' %>
+              <%= f.submit (t "season.view"), class: 'btn btn-primary' %>
             </div>
             <div class="col-auto">
-              <%= link_to "リセット", ow_s_stats_path(@page), class: "btn btn-outline-secondary" %>
+              <%= link_to (t "season.reset"), nw_d_stats_path(@page), class: "btn btn-outline-secondary" %>
             </div>
           </div>
         <% end %>
@@ -27,26 +27,29 @@
   </div>
 </div>
 <div>
-  <table class="table">
+  <table class="table table-hover">
     <thead>
       <tr>
-        <th>Name</th>
-        <th>レート</th>
-        <th>Win</th>
-        <th>Lose</th>
-        <th>勝率</th>
+        <th><%= t "stats.rank" %></th>
+        <th><%= t "name" %></th>
+        <th><%= t "stats.rate" %></th>
+        <th><%= t "stats.win" %></th>
+        <th><%= t "stats.lose" %></th>
+        <th><%= t "stats.win_p" %></th>
       </tr>
     </thead>
     <tbody>
+      <% rank = @page ? (@page - 1) * Kaminari.configure.default_per_page + 1 : 1 %>
       <% @stats.each do |stats| %>
-        <% info = @info.find_by(users: stats) %>
-        <tr class="clickable-row" data-href="<%= user_show_path(user_id: stats, info: info) %>">
-          <td><%= info.name %></td>
-          <td><%= stats.ow_s_rate %></td>
-          <td><%= stats.ow_s_win %></td>
-          <td><%= stats.ow_s_lose %></td>
-          <td><%= stats.ow_s_lose != 0 ? stats.ow_s_win.to_f / stats.ow_s_lose.to_f : stats.ow_s_win %></td>
+        <tr class="clickable-row" data-href="<%= user_path(id: stats) %>">
+          <td><%= rank %></td>
+          <td><%= stats.name %></td>
+          <td><%= stats.nw_d_rate %></td>
+          <td><%= stats.nw_d_win %></td>
+          <td><%= stats.nw_d_lose %></td>
+          <td><%= stats.nw_d_lose != 0 ? stats.nw_d_win.to_f / stats.nw_d_lose.to_f * 100 : stats.nw_d_win * 100 %>%</td>
         </tr>
+        <% rank += 1 %>
       <% end %>
     </tbody>
   </table>

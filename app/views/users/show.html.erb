@@ -1,17 +1,37 @@
-<p class="h2"><%= @info.name %>のユーザーデータ</p>
+<p class="h2"><%= @info.name %><%= t "user.ex_title" %></p>
 <br>
-<p class="h4">シーズン選択</p>
+<p class="h4"><%= t "user.name_his" %></p>
 <div class="mb-3">
-  <%= form_for :season, url: user_show_path, method: :get do |f| %>
+  <table class="table mb-3">
+    <thead>
+      <tr>
+        <th><%= t "name" %></th>
+        <th><%= t "stats.time" %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @info.name_histories.each do |names| %>
+        <tr>
+          <td><%= names.name %></td>
+          <td><%= l names.created_at %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<br>
+<p class="h4"><%= t "season.select" %></p>
+<div class="mb-3">
+  <%= form_for :season, url: user_path, method: :get do |f| %>
     <div class="row g-4 mb-3 w-100">
       <div class="col-auto">
-        <%= f.select :season, Season.all.map{|s| [s.name, s.id]}, selected: @season.id %>
+        <%= f.select :season, Season.all.map{|s| [s.name, s.id]}, {selected: @season.id}, {class: "form-control col-6"} %>
       </div>    
       <div class="col-auto">
-        <%= f.submit '表示', class: 'btn btn-primary' %>
+        <%= f.submit (t "season.view"), class: 'btn btn-primary' %>
       </div>
       <div class="col-auto">
-        <%= link_to "リセット", user_show_path(user_id: params[:user_id], info: params[:info], page: @page), class: "btn btn-outline-secondary" %>
+        <%= link_to (t "season.reset"), user_path(id: params[:id], page: @page), class: "btn btn-outline-secondary" %>
       </div>
     </div>
   <% end %>
@@ -19,159 +39,159 @@
 <br>
 <% if @state %>
   <div class="w-100">
-    <p class="h4">壁なしシングル</p>
+    <p class="h4"><%= t "no_wall_single" %></p>
     <table class="table table-striped">
       <tbody>
         <tr>
-          <td>レート</td>
+          <td><%= t "stats.rate" %></td>
           <td><%= @user.nw_s_rate %></td>
         </tr>
         <tr>
-          <td>Win</td>
+          <td><%= t "stats.win" %></td>
           <td><%= @user.nw_s_win %></td>
         </tr>
         <tr>
-          <td>Lose</td>
+          <td><%= t "stats.lose" %></td>
           <td><%= @user.nw_s_lose %></td>
         </tr>
         <tr>
-          <td>勝率</td>
-          <td><%= @user.nw_s_lose == 0 ? @user.nw_s_win.to_f / @user.nw_s_lose.to_f : @user.nw_s_win %></td>
+          <td><%= t "stats.win_p" %></td>
+          <td><%= @user.nw_s_lose == 0 ? @user.nw_s_win.to_f / @user.nw_s_lose.to_f * 100 : @user.nw_s_win * 100 %></td>
         </tr>
       </tbody>
     </table>
     <br>
-    <p class="h4">壁なしダブル</p>
+    <p class="h4"><%= t "no_wall_double" %></p>
     <table class="table table-striped">
       <tbody>
         <tr>
-          <td>レート</td>
+          <td><%= t "stats.rate" %></td>
           <td><%= @user.nw_d_rate %></td>
         </tr>
         <tr>
-          <td>Win</td>
+          <td><%= t "stats.win" %></td>
           <td><%= @user.nw_d_win %></td>
         </tr>
         <tr>
-          <td>Lose</td>
+          <td><%= t "stats.lose" %></td>
           <td><%= @user.nw_d_lose %></td>
         </tr>
         <tr>
-          <td>勝率</td>
+          <td><%= t "stats.win_p" %></td>
           <td><%= @user.nw_d_lose == 0 ? @user.nw_d_win.to_f / @user.nw_d_lose.to_f : @user.nw_d_win %></td>
         </tr>
       </tbody>
     </table>
     <br>
-    <p class="h4">壁ありシングル</p>
+    <p class="h4"><%= t "on_wall_single" %></p>
     <table class="table table-striped">
       <tbody>
         <tr>
-          <td>レート</td>
+          <td><%= t "stats.rate" %></td>
           <td><%= @user.ow_s_rate %></td>
         </tr>
         <tr>
-          <td>Win</td>
+          <td><%= t "stats.win" %></td>
           <td><%= @user.ow_s_win %></td>
         </tr>
         <tr>
-          <td>Lose</td>
+          <td><%= t "stats.lose" %></td>
           <td><%= @user.ow_s_lose %></td>
         </tr>
         <tr>
-          <td>勝率</td>
+          <td><%= t "stats.win_p" %></td>
           <td><%= @user.ow_s_lose == 0 ? @user.ow_s_win.to_f / @user.ow_s_lose.to_f : @user.ow_s_win %></td>
         </tr>
       </tbody>
     </table>
     <br>
-    <p class="h4">壁ありダブル</p>
+    <p class="h4"><%= t "on_wall_double" %></p>
     <table class="table table-striped">
       <tbody>
         <tr>
-          <td>レート</td>
+          <td><%= t "stats.rate" %></td>
           <td><%= @user.ow_d_rate %></td>
         </tr>
         <tr>
-          <td>Win</td>
+          <td><%= t "stats.win" %></td>
           <td><%= @user.ow_d_win %></td>
         </tr>
         <tr>
-          <td>Lose</td>
+          <td><%= t "stats.lose" %></td>
           <td><%= @user.ow_d_lose %></td>
         </tr>
         <tr>
-          <td>勝率</td>
+          <td><%= t "stats.win_p" %></td>
           <td><%= @user.ow_d_lose == 0 ? @user.ow_d_win.to_f / @user.ow_d_lose.to_f : @user.ow_d_win %></td>
         </tr>
       </tbody>
     </table>
     <br>
   </div>
-  <p class="h3"><%= @info.name %>の試合ログ</p>
+  <p class="h3"><%= @info.name %><%= t "user.log_title" %></p>
   <div class="accordion mb-3" id="accordionExample">
     <div class="accordion-item">
       <h2 class="accordion-header">
         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-          絞り込み/検索
+          <%= t "search.title" %>
         </button>
       </h2>
       <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
         <div class="accordion-body">
-          <%= search_form_for @q, url: user_show_path do |f| %>
+          <%= search_form_for @q, url: user_path do |f| %>
             <div class="row g-4 mb-3">
               <div class="col-auto">
                 <%= f.search_field :redname1_or_redname2_or_bluename1_or_bluename2_cont, class: 'col-form-label', placeholder: 'ユーザー名' %>
               </div>    
               <div class="col-auto">
-                <%= f.submit '検索', class: 'btn btn-primary' %>
+                <%= f.submit (t "search.submit"), class: 'btn btn-primary' %>
               </div>
               <div class="col-auto">
-                <%= link_to "リセット", user_show_path(user_id: params[:user_id], info: params[:info], page: @page, season: @season), class: "btn btn-outline-secondary" %>
+                <%= link_to (t "search.reset"), user_path(user_id: params[:user_id], info: params[:info], page: @page, season: @season), class: "btn btn-outline-secondary" %>
               </div>
             </div>
-            <label>人数</label>
+            <label><%= t "stats.people" %></label>
             <div class=".d-flex mb-3">
               <%= f.check_box :is_single_eq_any, { multiple: true, include_hidden: false }, true %>
-              <label>シングルス</label>
+              <label><%= t "rule.singles" %></label>
               <%= f.check_box :is_single_eq_any, { multiple: true, include_hidden: false }, false %>
-              <label>ダブルス</label>
+              <label><%= t "rule.doubles" %></label>
             </div>
-            <label>ルール</label>
+            <label><%= t "rule.rule" %></label>
             <div class=".d-flex">
               <%= f.check_box :hopping_allowed_eq_any, { multiple: true, include_hidden: false }, true %>
-              <label>ジャンプあり</label>
+              <label><%= t "stats.jump_on" %></label>
               <%= f.check_box :hopping_allowed_eq_any, { multiple: true, include_hidden: false }, false %>
-              <label>ジャンプ無し</label>
+              <label><%= t "stats.jump_off" %></label>
             </div>
             <div class=".d-flex">
               <%= f.check_box :game_double_eq_any, { multiple: true, include_hidden: false }, true %>
-              <label>ダブルディスク</label>
+              <label><%= t "rule.double" %></label>
               <%= f.check_box :game_double_eq_any, { multiple: true, include_hidden: false }, false %>
-              <label>シングルディスク</label>
+              <label><%= t "rule.single" %></label>
             </div>
             <div class=".d-flex">
               <%= f.check_box :game_boundaries_eq_any, { multiple: true, include_hidden: false }, true %>
-              <label>壁あり</label>
+              <label><%= t "rule.no_wall" %></label>
               <%= f.check_box :game_boundaries_eq_any, { multiple: true, include_hidden: false }, false %>
-              <label>壁なし</label>
+              <label><%= t "rule.no_wall" %></label>
             </div>
             <div class=".d-flex mb-3">
               <%= f.check_box :score_max_eq_any, { multiple: true, include_hidden: false }, "1" %>
-              <label>1点</label>
+              <label>1<%= t "stats.point" %></label>
               <%= f.check_box :score_max_eq_any, { multiple: true, include_hidden: false }, "5" %>
-              <label>5点</label>
+              <label>5<%= t "stats.point" %></label>
               <%= f.check_box :score_max_eq_any, { multiple: true, include_hidden: false }, "10" %>
-              <label>10点</label>
+              <label>10<%= t "stats.point" %></label>
             </div>
-            <label>EX Speed</label>
+            <label><%= t "stats.ex" %></label>
             <div class=".d-flex">
               <%= f.check_box :game_ex_speed_eq_any, { multiple: true, include_hidden: false }, "off" %>
-              <label>OFF</label>
+              <label><%= t "stats.ex_off" %></label>
               <%= f.check_box :game_ex_speed_eq_any, { multiple: true, include_hidden: false }, "ex1" %>
-              <label>EX1</label>
+              <label><%= t "stats.ex_1" %></label>
               <%= f.check_box :game_ex_speed_eq_any, { multiple: true, include_hidden: false }, "ex2" %>
-              <label>EX2</label>
+              <label><%= t "stats.ex_2" %></label>
             </div>
           <% end %>
         </div>
@@ -225,4 +245,14 @@
   </div>
 <% else %>
   <p class="h3"><%= @info.name %>の<%= @season.name %>の記録はありません</p>
+<% end %>
+<% if logged_in? %>
+  <p class="h4">名前変更</p>
+  <div class="mt-3 mb-3">
+    <%= form_for :rename, url: user_show_path(user_id: params[:user_id]) do |f| %>
+      <%= f.hidden_field :season, :value => @season.id %>
+      <%= f.text_field :name, class: 'col-form-label', placeholder: '新しい名前' %>
+      <%= f.submit "名前変更", class: 'btn btn-primary' %>
+    <% end %>
+  </div>
 <% end %>

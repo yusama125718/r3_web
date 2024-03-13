@@ -10,7 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_27_023117) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_06_070923) do
+  create_table "accounts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name"
+    t.string "password_digest"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "matches", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "guid", null: false
     t.string "redname1"
@@ -37,6 +44,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_27_023117) do
     t.index ["season_id"], name: "index_matches_on_season_id"
   end
 
+  create_table "name_histories", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name", null: false
+    t.boolean "in_use", default: false, null: false
+    t.bigint "user_info_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_info_id"], name: "index_name_histories_on_user_info_id"
+  end
+
   create_table "seasons", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "finished_at"
@@ -46,13 +62,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_27_023117) do
 
   create_table "user_infos", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
-    t.string "now_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "user_info_id"
+    t.string "name", null: false
     t.integer "nw_s_win", default: 0, null: false
     t.integer "nw_s_lose", default: 0, null: false
     t.integer "nw_s_rate", default: 0, null: false
@@ -65,10 +80,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_27_023117) do
     t.integer "ow_d_win", default: 0, null: false
     t.integer "ow_d_lose", default: 0, null: false
     t.integer "ow_d_rate", default: 0, null: false
-    t.integer "other_win", default: 0, null: false
-    t.integer "other_lose", default: 0, null: false
-    t.integer "other_rate", default: 0, null: false
     t.bigint "season_id"
+    t.bigint "user_info_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["season_id"], name: "index_users_on_season_id"

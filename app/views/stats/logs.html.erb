@@ -1,11 +1,11 @@
-<p class="h2">試合ログ</p>
+<p class="h2"><%= t "stats.log_title" %></p>
 <br>
 
 <div class="accordion mb-3" id="accordionExample">
   <div class="accordion-item">
     <h2 class="accordion-header">
       <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-        絞り込み/検索
+        <%= t "search.title" %>
       </button>
     </h2>
     <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
@@ -16,58 +16,58 @@
               <%= f.search_field :redname1_or_redname2_or_bluename1_or_bluename2_cont, class: 'col-form-label', placeholder: 'ユーザー名' %>
             </div>    
             <div class="col-auto">
-              <%= f.submit '検索', class: 'btn btn-primary' %>
+              <%= f.submit (t "search.submit"), class: 'btn btn-primary' %>
             </div>
             <div class="col-auto">
-              <%= link_to "リセット", logs_stats_path(@page), class: "btn btn-outline-secondary" %>
+              <%= link_to (t "search.reset"), logs_stats_path(@page), class: "btn btn-outline-secondary" %>
             </div>
           </div>
-          <label>シーズン</label>
+          <label><%= t "stats.season" %></label>
           <div class="mb-3">
-            <%= f.select :season, Season.all.map{|s| [s.name, s.id]}, selected: @season.id %>
+            <%= f.select :season, Season.all.map{|s| [s.name, s.id]}, {selected: @season.id}, {class: "form-control col-6"} %>
           </div>
-          <label>人数</label>
+          <label><%= t "stats.people" %></label>
           <div class=".d-flex mb-3">
             <%= f.check_box :is_single_eq_any, { multiple: true, include_hidden: false }, true %>
-            <label>シングルス</label>
+            <label><%= t "rule.singles" %></label>
             <%= f.check_box :is_single_eq_any, { multiple: true, include_hidden: false }, false %>
-            <label>ダブルス</label>
+            <label><%= t "rule.doubles" %></label>
           </div>
-          <label>ルール</label>
+          <label><%= t "rule.rule" %></label>
           <div class=".d-flex">
             <%= f.check_box :hopping_allowed_eq_any, { multiple: true, include_hidden: false }, true %>
-            <label>ジャンプあり</label>
+            <label><%= t "stats.jump_on" %></label>
             <%= f.check_box :hopping_allowed_eq_any, { multiple: true, include_hidden: false }, false %>
-            <label>ジャンプ無し</label>
+            <label><%= t "stats.jump_off" %></label>
           </div>
           <div class=".d-flex">
             <%= f.check_box :game_double_eq_any, { multiple: true, include_hidden: false }, true %>
-            <label>ダブルディスク</label>
+            <label><%= t "rule.double" %></label>
             <%= f.check_box :game_double_eq_any, { multiple: true, include_hidden: false }, false %>
-            <label>シングルディスク</label>
+            <label><%= t "rule.single" %></label>
           </div>
           <div class=".d-flex">
             <%= f.check_box :game_boundaries_eq_any, { multiple: true, include_hidden: false }, true %>
-            <label>壁あり</label>
+            <label><%= t "rule.no_wall" %></label>
             <%= f.check_box :game_boundaries_eq_any, { multiple: true, include_hidden: false }, false %>
-            <label>壁なし</label>
+            <label><%= t "rule.no_wall" %></label>
           </div>
           <div class=".d-flex mb-3">
             <%= f.check_box :score_max_eq_any, { multiple: true, include_hidden: false }, "1" %>
-            <label>1点</label>
+            <label>1<%= t "stats.point" %></label>
             <%= f.check_box :score_max_eq_any, { multiple: true, include_hidden: false }, "5" %>
-            <label>5点</label>
+            <label>5<%= t "stats.point" %></label>
             <%= f.check_box :score_max_eq_any, { multiple: true, include_hidden: false }, "10" %>
-            <label>10点</label>
+            <label>10<%= t "stats.point" %></label>
           </div>
-          <label>EX Speed</label>
+          <label><%= t "stats.ex" %></label>
           <div class=".d-flex">
             <%= f.check_box :game_ex_speed_eq_any, { multiple: true, include_hidden: false }, "off" %>
-            <label>OFF</label>
+            <label><%= t "stats.ex_off" %></label>
             <%= f.check_box :game_ex_speed_eq_any, { multiple: true, include_hidden: false }, "ex1" %>
-            <label>EX1</label>
+            <label><%= t "stats.ex_1" %></label>
             <%= f.check_box :game_ex_speed_eq_any, { multiple: true, include_hidden: false }, "ex2" %>
-            <label>EX2</label>
+            <label><%= t "stats.ex_2" %></label>
           </div>
         <% end %>
       </div>
@@ -79,18 +79,18 @@
   <table class="table mb-3">
     <thead>
       <tr>
-        <th>記録日時</th>
-        <th>Red1</th>
-        <th>Red2</th>
-        <th>RedScore</th>
-        <th>Blue1</th>
-        <th>Blue2</th>
-        <th>BlueScore</th>
-        <th>Winner</th>
-        <th>ルール</th>
-        <th>ジャンプ</th>
-        <th>Ex_Speed</th>
-        <th>人数</th>
+        <th><%= t "stats.time" %></th>
+        <th><%= t "stats.red1" %></th>
+        <th><%= t "stats.red2" %></th>
+        <th><%= t "stats.red_score" %></th>
+        <th><%= t "stats.blue1" %></th>
+        <th><%= t "stats.blue2" %></th>
+        <th><%= t "stats.blue_score" %></th>
+        <th><%= t "stats.winner" %></th>
+        <th><%= t "stats.rule" %></th>
+        <th><%= t "stats.jump" %></th>
+        <th><%= t "stats.ex" %></th>
+        <th><%= t "stats.people" %></th>
       </tr>
     </thead>
     <tbody>
@@ -107,10 +107,10 @@
 
           <td><%= logs.winner1 %><%= logs.winner2.blank? ? "" : " / " + logs.winner2 %></td>
 
-          <td><%= logs.game_boundaries ? "壁あり" : "壁なし" %><%= logs.game_double ? "ダブル" : "シングル" %><%= logs.score_max %>点</td>
+          <td><%= logs.game_boundaries ? (t "rule.on_wall") : (t "rule.no_wall") %><%= logs.game_double ? (t "rule.double") : (t "rule.single") %><%= logs.score_max %><%= t "stats.point" %></td>
           <td><%= logs.hopping_allowed ? "ON" : "OFF" %></td>
           <td><%= logs.game_ex_speed %></td>
-          <td><%= logs.is_single ? "シングルス" : "ダブルス" %></td>
+          <td><%= logs.is_single ? (t "rule.singles") : (t "rule.doubles") %></td>
         </tr>
       <% end %>
     </tbody>
