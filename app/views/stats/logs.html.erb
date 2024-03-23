@@ -81,16 +81,15 @@
       <tr>
         <th><%= t "stats.time" %></th>
         <th><%= t "stats.red1" %></th>
-        <th><%= t "stats.red2" %></th>
         <th><%= t "stats.red_score" %></th>
+        <th><%= t "stats.red_rate" %></th>
         <th><%= t "stats.blue1" %></th>
-        <th><%= t "stats.blue2" %></th>
         <th><%= t "stats.blue_score" %></th>
+        <th><%= t "stats.blue_rate" %></th>
         <th><%= t "stats.winner" %></th>
         <th><%= t "stats.rule" %></th>
         <th><%= t "stats.jump" %></th>
         <th><%= t "stats.ex" %></th>
-        <th><%= t "stats.people" %></th>
       </tr>
     </thead>
     <tbody>
@@ -98,19 +97,18 @@
         <tr>
           <td><%= l logs.created_at %></td>
           <td><%= logs.redname1 %></td>
-          <td><%= logs.redname2 %></td>
           <td><%= logs.redscore %></td>
+          <td><%= logs.reddiff1 %></td>
 
           <td><%= logs.bluename1 %></td>
-          <td><%= logs.bluename2 %></td>
           <td><%= logs.bluescore %></td>
+          <td><%= logs.bluediff1 %></td>
 
-          <td><%= logs.winner1 %><%= logs.winner2.blank? ? "" : " / " + logs.winner2 %></td>
+          <td><%= logs.winner1 %></td>
 
           <td><%= logs.game_boundaries ? (t "rule.on_wall") : (t "rule.no_wall") %><%= logs.game_double ? (t "rule.double") : (t "rule.single") %><%= logs.score_max %><%= t "stats.point" %></td>
           <td><%= logs.hopping_allowed ? "ON" : "OFF" %></td>
           <td><%= logs.game_ex_speed %></td>
-          <td><%= logs.is_single ? (t "rule.singles") : (t "rule.doubles") %></td>
         </tr>
       <% end %>
     </tbody>
