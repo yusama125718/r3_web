@@ -44,10 +44,10 @@
         <tr class="clickable-row" data-href="<%= user_path(id: stats) %>">
           <td><%= rank %></td>
           <td><%= stats.name %></td>
-          <td><%= stats.nw_d_rate %></td>
-          <td><%= stats.nw_d_win %></td>
-          <td><%= stats.nw_d_lose %></td>
-          <td><%= stats.nw_d_lose != 0 ? stats.nw_d_win.to_f / stats.nw_d_lose.to_f * 100 : stats.nw_d_win * 100 %>%</td>
+          <td><%= stats.ow_d_rate %></td>
+          <td><%= stats.ow_d_win %></td>
+          <td><%= stats.ow_d_lose %></td>
+          <td><%= stats.ow_d_lose != 0 ? (stats.ow_d_win.to_f / (stats.ow_d_win.to_f + stats.ow_d_lose.to_f) * 100).round(2) : 100 %>%</td>
         </tr>
         <% rank += 1 %>
       <% end %>

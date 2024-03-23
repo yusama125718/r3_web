@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="h-100 container-fluid">
+<html class="h-100">
   <head>
     <title>R3 Log</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -10,7 +10,7 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="h-100 row no-gutters">
+  <body class="h-100 no-gutters m-0">
     <header class="w-100 d-flex justify-content-between align-items-center px-3 bg-dark border-bottom border-bottom-dark" data-bs-theme="dark" style="height: 60px;">
       <ul class="navbar-nav d-flex flex-row">
         <li class="mx-3 text-muted active"><a href="/" class="nav-link --bs-primary-border-subtle" style="font-size: 20px;">R3 Log</a></li>
@@ -79,7 +79,7 @@
           </li>
         </ul>
       </nav>
-      <main class="w-100 bg-light overflow-y-scroll" style="margin: 10px;">
+      <main class="flex-grow-1 bg-light overflow-y-scroll" style="padding: 10px;">
         <% if flash[:warning] %>
           <div class="alert alert-warning" role="alert"><%= flash[:warning] %></div>
         <% end %>

@@ -1,4 +1,5 @@
 class ApiController < ApplicationController
+  include ApiHelper
   skip_forgery_protection
 
   # リザルト受け取り処理
@@ -86,24 +87,24 @@ class ApiController < ApplicationController
     if score_red > score_blue
       winner = "red"
       if game_boundaries && game_double
-        rate = GetRate(red_info[0].ow_d_rate, score_red, blue_info[0].ow_d_rate, score_blue, score_max)
+        rate = GetRate(reduser[0].ow_d_rate, score_red, blueuser[0].ow_d_rate, score_blue, score_max)
       elsif game_boundaries && !game_double
-        rate = GetRate(red_info[0].ow_s_rate, score_red, blue_info[0].ow_s_rate, score_blue, score_max)
+        rate = GetRate(reduser[0].ow_s_rate, score_red, blueuser[0].ow_s_rate, score_blue, score_max)
       elsif !game_boundaries && game_double
-        rate = GetRate(red_info[0].nw_d_rate, score_red, blue_info[0].nw_d_rate, score_blue, score_max)
+        rate = GetRate(reduser[0].nw_d_rate, score_red, blueuser[0].nw_d_rate, score_blue, score_max)
       elsif !game_boundaries && !game_double
-        rate = GetRate(red_info[0].nw_s_rate, score_red, blue_info[0].nw_s_rate, score_blue, score_max)
+        rate = GetRate(reduser[0].nw_s_rate, score_red, blueuser[0].nw_s_rate, score_blue, score_max)
       end
     else
       winner = "blue"
       if game_boundaries && game_double
-        rate = GetRate(blue_info[0].ow_d_rate, score_blue, red_info[0].ow_d_rate, score_red, score_max)
+        rate = GetRate(blueuser[0].ow_d_rate, score_blue, reduser[0].ow_d_rate, score_red, score_max)
       elsif game_boundaries && !game_double
-        rate = GetRate(blue_info[0].ow_s_rate, score_blue, red_info[0].ow_s_rate, score_red, score_max)
+        rate = GetRate(blueuser[0].ow_s_rate, score_blue, reduser[0].ow_s_rate, score_red, score_max)
       elsif !game_boundaries && game_double
-        rate = GetRate(blue_info[0].nw_d_rate, score_blue, red_info[0].nw_d_rate, score_red, score_max)
+        rate = GetRate(blueuser[0].nw_d_rate, score_blue, reduser[0].nw_d_rate, score_red, score_max)
       elsif !game_boundaries && !game_double
-        rate = GetRate(blue_info[0].nw_s_rate, score_blue, red_info[0].nw_s_rate, score_red, score_max)
+        rate = GetRate(blueuser[0].nw_s_rate, score_blue, reduser[0].nw_s_rate, score_red, score_max)
       end
     end
     # guidのかぶりがなかったら試合結果を追加
@@ -111,40 +112,44 @@ class ApiController < ApplicationController
       if winner == "red"
         winner_name = red
         winner_info = red_info
+        red_diff = rate[:win]
         loser_name = blue
         loser_info = blue_info
+        blue_diff = rate[:lose]
       elsif winner == "blue"
         winner_name = blue
         winner_info = blue_info
+        blue_diff = rate[:win]
         loser_name = red
         loser_info = red_info
+        red_diff = rate[:lose]
       end
       Match.transaction do
-        Match.create!(guid: guid, redname1: red[0], redname2: red[1], bluename1: blue[0], bluename2: blue[1], redscore: score_red, bluescore: score_blue, winner1: winner_name[0], winner2: winner_name[1], hopping_allowed: hopping_allowed, game_double: game_double, game_ex_speed: game_ex_speed, game_boundaries: game_boundaries, score_max: score_max, is_single: is_single, season_id: season.id)
+        Match.create!(guid: guid, redname1: red[0], redname2: red[1], bluename1: blue[0], bluename2: blue[1], redscore: score_red, bluescore: score_blue, winner1: winner_name[0], winner2: winner_name[1], hopping_allowed: hopping_allowed, game_double: game_double, game_ex_speed: game_ex_speed, game_boundaries: game_boundaries, score_max: score_max, is_single: is_single, season_id: season.id, reddiff1: red_diff, bluediff1: blue_diff)
         if is_single
-          w = season.users.find_by(user_info: winner_info[0])
-          l = season.users.find_by(user_info: loser_info[0])
+          w = reduser[0]
+          l = blueuser[0]
           # ルール毎に入力変更
           if game_boundaries && game_double
             w.ow_d_win += 1
-            w.ow_d_rate += rate[0]
+            w.ow_d_rate += rate[:win]
             l.ow_d_lose += 1
-            l.ow_d_rate -= rate[1]
+            l.ow_d_rate -= rate[:lose]
           elsif game_boundaries && !game_double
             w.ow_s_win += 1
-            w.ow_s_rate += rate[0]
+            w.ow_s_rate += rate[:win]
             l.ow_s_lose += 1
-            l.ow_s_rate -= rate[1]
+            l.ow_s_rate -= rate[:lose]
           elsif !game_boundaries && game_double
             w.nw_d_win += 1
-            w.nw_d_rate += rate[0]
+            w.nw_d_rate += rate[:win]
             l.nw_d_lose += 1
-            l.nw_d_rate -= rate[1]
+            l.nw_d_rate -= rate[:lose]
           elsif !game_boundaries && !game_double
             w.nw_s_win += 1
-            w.nw_s_rate += rate[0]
+            w.nw_s_rate += rate[:win]
             l.nw_s_lose += 1
-            l.nw_s_rate -= rate[1]
+            l.nw_s_rate -= rate[:lose]
           end
           w.save!
           l.save!
