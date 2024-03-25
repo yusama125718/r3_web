@@ -26,13 +26,6 @@
           <div class="mb-3">
             <%= f.select :season, Season.all.map{|s| [s.name, s.id]}, {selected: @season.id}, {class: "form-control col-6"} %>
           </div>
-          <label><%= t "stats.people" %></label>
-          <div class=".d-flex mb-3">
-            <%= f.check_box :is_single_eq_any, { multiple: true, include_hidden: false }, true %>
-            <label><%= t "rule.singles" %></label>
-            <%= f.check_box :is_single_eq_any, { multiple: true, include_hidden: false }, false %>
-            <label><%= t "rule.doubles" %></label>
-          </div>
           <label><%= t "rule.rule" %></label>
           <div class=".d-flex">
             <%= f.check_box :hopping_allowed_eq_any, { multiple: true, include_hidden: false }, true %>

@@ -1,6 +1,10 @@
 module ApiHelper
   # シングルス用レート計算関数
   def GetRate(winner_rate, winner_score, loser_rate, loser_score, score_max)
+    # １点マッチの場合レート変動なし
+    if score_max == "1"
+      return {win: 0, lose: 0}
+    end
     # 敗者のレートによって勝利ポイントの減り幅の倍率を変える
     case loser_rate
     when nil..149

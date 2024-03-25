@@ -1,2 +1,7 @@
-<p class="h2">About This Page</p>
-<p>このサイトは「」によって運営されています。</p>
+<% if params[:locale] == "en" %>
+  <p class="h2">About This Page</p>
+  <p>This site moderate by XDF(XrossDisc Federation)</p>
+<% else %>
+  <p class="h2">About This Page</p>
+  <p>このサイトは「XDF（クロスディスク連盟）」によって運営されています。</p>
+<% end %>
