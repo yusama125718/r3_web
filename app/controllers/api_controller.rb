@@ -8,12 +8,12 @@ class ApiController < ApplicationController
       return
     end
     # NPCがいる場合弾く
-    # if params[:name_a1].start_with?("NPC ") || params[:name_a2].start_with?("NPC ") || params[:name_b1].start_with?("NPC ") || params[:name_b2].start_with?("NPC ")
-    #   return
-    # end
-    # if params[:name_a1].start_with?("AI ") || params[:name_a2].start_with?("AI ") || params[:name_b1].start_with?("AI ") || params[:name_b2].start_with?("AI ")
-    #   return
-    # end
+    if params[:name_a1].start_with?("NPC ") || params[:name_a2].start_with?("NPC ") || params[:name_b1].start_with?("NPC ") || params[:name_b2].start_with?("NPC ")
+      return
+    end
+    if params[:name_a1].start_with?("AI ") || params[:name_a2].start_with?("AI ") || params[:name_b1].start_with?("AI ") || params[:name_b2].start_with?("AI ")
+      return
+    end
     season = Season.find_by(finished_at: nil)
     # シングルスかダブルスか判定
     is_single = (params[:name_a1] == "" || params[:name_a2] == "") && (params[:name_b1] == "" || params[:name_b2] == "") && (params[:name_a1] != "" || params[:name_a2] != "") && (params[:name_b1] != "" || params[:name_b2] != "")
@@ -75,14 +75,18 @@ class ApiController < ApplicationController
     #     blueuser[1] = User.create!(name: blue[1], user_info: blue_info[1], season_id: season.id)
     #   end
     # end 
-    score_red = params[:score_a]
-    score_blue = params[:score_b]
+    score_red = params[:score_a].to_i
+    score_blue = params[:score_b].to_i
     guid = params[:guid]
     hopping_allowed = params[:hopping_allowed] == "on"
     game_double = params[:game_double] == "on"
     game_ex_speed = params[:game_ex_speed]
     game_boundaries = params[:game_boundaries] == "on"
     score_max = params[:score_max]
+    # 同点だったら記録しない
+    if score_red == score_blue
+      return
+    end
     # シングルス専用レート計算処理
     if score_red > score_blue
       winner = "red"
