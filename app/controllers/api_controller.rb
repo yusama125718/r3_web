@@ -131,8 +131,13 @@ class ApiController < ApplicationController
       Match.transaction do
         Match.create!(guid: guid, redname1: red[0], redname2: red[1], bluename1: blue[0], bluename2: blue[1], redscore: score_red, bluescore: score_blue, winner1: winner_name[0], winner2: winner_name[1], hopping_allowed: hopping_allowed, game_double: game_double, game_ex_speed: game_ex_speed, game_boundaries: game_boundaries, score_max: score_max, is_single: is_single, season_id: season.id, reddiff1: red_diff, bluediff1: blue_diff)
         if is_single
-          w = reduser[0]
-          l = blueuser[0]
+          if winner == "red"
+            w = reduser[0]
+            l = blueuser[0]
+          elsif winner == "blue"
+            w = blueuser[0]
+            l = reduser[0]
+          end
           # ルール毎に入力変更
           if game_boundaries && game_double
             w.ow_d_win += 1
@@ -168,9 +173,18 @@ class ApiController < ApplicationController
     season = params[:season].blank? ? Season.find_by(finished_at: nil) : Season.find_by(id: params[:season])
     # 壁なしシングルTOP5取得
     nw_s = season.users.select(:name, :nw_s_rate, :nw_s_win, :nw_s_lose).where.not(nw_s_win: 0, nw_s_lose: 0).order(nw_s_rate: :desc, nw_s_win: :desc, updated_at: :asc).limit(5)
-    for i in 1..5
-      if 
-    end
+    # for i in 1..5
+    #   if nw_s.size < i
+    #     break;
+    #   end
+    #   if i == 1
+    #     data[:nowall_single] = {ApiHelper::PLACE[i].to_sym: "aaaa"}
+    #     # data[:nowall_single] = {ApiHelper::PLACE[i].to_sym: nw_s[i].to_json}
+    #     # data[:nowall_single] = {ApiHelper::PLACE[i]: nw_s[i].to_json}
+    #   else
+    #     # data[:nowall_single].merge({ApiHelper::PLACE[i]: nw_s[i].to_json})
+    #   end
+    # end
     data.store("nowall_single", nw_s.to_json)
     # 壁なしダブル取得
     nw_d = season.users.select(:name, :nw_d_rate, :nw_d_win, :nw_d_lose).where.not(nw_d_win: 0, nw_d_lose: 0).order(nw_d_rate: :desc, nw_d_win: :desc, updated_at: :asc).limit(5)

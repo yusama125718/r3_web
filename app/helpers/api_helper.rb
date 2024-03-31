@@ -44,4 +44,12 @@ module ApiHelper
     end
     return {win: win, lose: lose}
   end
+
+  PLACE = {
+    1 => "first",
+    2 => "second",
+    3 => "third",
+    4 => "fourth",
+    5 => "fiveth"
+  }
 end
