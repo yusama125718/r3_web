@@ -2,6 +2,8 @@ ja:
   language: "Language"
   delete: "削除"
   name: "名前"
+  nopage: "お探しのページが見つかりませんでした"
+  backtop: "トップへ戻る"
   search:
     title: "絞り込み/検索"
     submit: "検索"
@@ -41,6 +43,12 @@ ja:
     log_title: "の試合ログ"
     name_his: "名前履歴"
     user_name: "ユーザー名"
+    newname: "新しい名前"
+    change_name: "名前変更"
+    delete: "シーズンデータ削除"
+    delete_all: "全データ削除"
+    confirm: "このシーズンのユーザーデータを削除しますか？"
+    confirm_all: "このユーザーのデータを全て削除しますか？"
   rule:
     no_wall_single: "壁なしシングル"
     no_wall_double: "壁なしダブル"
@@ -66,7 +74,7 @@ ja:
     start: "新シーズンスタート"
     start_at: "開始日時"
     finish_at: "終了日時"
-    confirm: "シーズン削除"
+    confirm: "シーズンを削除しますか？"
   time:
     formats:
       default: "%Y年%-m月%-d日 %-H時%-M分"

@@ -44,11 +44,11 @@
     <tbody>
       <% @user.each do |user| %>
         <tr class="clickable-row" data-href="<%= user_path(id: user) %>">
-          <td><%= user.name %></td>
-          <td><%= user.nw_s_rate %></td>
-          <td><%= user.ow_s_rate %></td>
-          <td><%= user.nw_d_rate %></td>
-          <td><%= user.ow_d_rate %></td>
+          <td class="clickable-row" data-href="<%= user_path(id: user) %>"><%= user.name %></td>
+          <td class="clickable-row" data-href="<%= user_path(id: user) %>"><%= user.nw_s_rate %></td>
+          <td class="clickable-row" data-href="<%= user_path(id: user) %>"><%= user.ow_s_rate %></td>
+          <td class="clickable-row" data-href="<%= user_path(id: user) %>"><%= user.nw_d_rate %></td>
+          <td class="clickable-row" data-href="<%= user_path(id: user) %>"><%= user.ow_d_rate %></td>
         </tr>
       <% end %>
     </tbody>
