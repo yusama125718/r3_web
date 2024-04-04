@@ -254,7 +254,8 @@
     <% end %>
   </div>
   <br>
-  <%= button_to (t "user.delete"), season_admin_path(id: @info.id, season: @season.id), {method: :delete, data: {turbo_confirm: (t "user.confirm")}, class: 'btn btn-danger'} %>
-  <%= button_to (t "user.delete_all"), season_admin_path(id: @info.id), {method: :delete, data: {turbo_confirm: (t "user.confirm_all")}, class: 'btn btn-danger'} %>
-  </div>
+  <%= button_to (t "user.delete"), user_path(id: @info.id, season: @season.id), {method: :delete, data: {turbo_confirm: (t "user.confirm")}, class: 'btn btn-danger'} %>
+  <br>
+  <%= button_to (t "user.delete_all"), user_path(id: @info.id), {method: :delete, data: {turbo_confirm: (t "user.confirm_all")}, class: 'btn btn-danger'} %>
 <% end %>
+</div>

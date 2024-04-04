@@ -17,6 +17,10 @@ season = Season.create!(
    name: 'Season1'
 )
 
+# season2 = Season.create!(
+#    name: 'Season2'
+# )
+
 # info1 = UserInfo.create!(
 #    name: 'tanaka'
 # )
@@ -32,6 +36,14 @@ season = Season.create!(
 #    season_id: season.id,
 #    nw_s_win: 1,
 #    nw_s_rate: 50
+# )
+
+# User.create!(
+#    user_info: info1,
+#    name: 'tanaka',
+#    season_id: season2.id,
+#    nw_s_win: 1,
+#    nw_s_rate: 100
 # )
 
 # info2 = UserInfo.create!(
@@ -51,6 +63,14 @@ season = Season.create!(
 #    nw_s_rate: 80
 # )
 
+# User.create!(
+#    user_info: info2,
+#    name: 'takahashi',
+#    season_id: season2.id,
+#    nw_s_win: 1,
+#    nw_s_rate: 50
+# )
+
 # info3 = UserInfo.create!(
 #    name: 'sakamoto'
 # )
@@ -68,6 +88,14 @@ season = Season.create!(
 #    nw_s_rate: 90
 # )
 
+# User.create!(
+#    user_info: info3,
+#    name: 'sakamoto',
+#    season_id: season2.id,
+#    nw_s_win: 1,
+#    nw_s_rate: 150
+# )
+
 # info4 = UserInfo.create!(
 #    name: 'oda'
 # )
@@ -83,4 +111,12 @@ season = Season.create!(
 #    season_id: season.id,
 #    nw_s_win: 1,
 #    nw_s_rate: 50
+# )
+
+# User.create!(
+#    user_info: info4,
+#    name: 'oda',
+#    season_id: season2.id,
+#    nw_s_win: 1,
+#    nw_s_rate: 30
 # )

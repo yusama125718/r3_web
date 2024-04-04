@@ -10,8 +10,9 @@ class ApplicationController < ActionController::Base
     I18n.locale = params[:locale] || I18n.default_locale
   end
 
-  # unless Rails.env.development?
-  unless Rails.env.production?
+  unless Rails.env.development?
+  # Develop環境で404を出すやつ
+  # unless Rails.env.production?
     rescue_from Exception,                      with: :render_500
     rescue_from ActiveRecord::RecordNotFound,   with: :render_404
     rescue_from ActionController::RoutingError, with: :render_404
