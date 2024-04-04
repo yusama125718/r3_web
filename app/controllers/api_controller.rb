@@ -173,17 +173,29 @@ class ApiController < ApplicationController
     season = params[:season].blank? ? Season.find_by(finished_at: nil) : Season.find_by(id: params[:season])
     # 壁なしシングルTOP5取得
     nw_s = season.users.select(:name, :nw_s_rate, :nw_s_win, :nw_s_lose).where.not(nw_s_win: 0, nw_s_lose: 0).order(nw_s_rate: :desc, nw_s_win: :desc, updated_at: :asc).limit(5)
-    data.store("nw_s", nw_s.to_json)
+    # for i in 1..5
+    #   if nw_s.size < i
+    #     break;
+    #   end
+    #   if i == 1
+    #     data[:nowall_single] = {ApiHelper::PLACE[i].to_sym: "aaaa"}
+    #     # data[:nowall_single] = {ApiHelper::PLACE[i].to_sym: nw_s[i].to_json}
+    #     # data[:nowall_single] = {ApiHelper::PLACE[i]: nw_s[i].to_json}
+    #   else
+    #     # data[:nowall_single].merge({ApiHelper::PLACE[i]: nw_s[i].to_json})
+    #   end
+    # end
+    data.store("nowall_single", nw_s.to_json)
     # 壁なしダブル取得
     nw_d = season.users.select(:name, :nw_d_rate, :nw_d_win, :nw_d_lose).where.not(nw_d_win: 0, nw_d_lose: 0).order(nw_d_rate: :desc, nw_d_win: :desc, updated_at: :asc).limit(5)
-    data.store("nw_d", nw_d.to_json)
+    data.store("nowall_double", nw_d.to_json)
     # 壁ありシングル取得
     ow_s = season.users.select(:name, :ow_s_rate, :ow_s_win, :ow_s_lose).where.not(ow_s_win: 0, ow_s_lose: 0).order(ow_s_rate: :desc, ow_s_win: :desc, updated_at: :asc).limit(5)
-    data.store("ow_s", ow_s.to_json)
+    data.store("onwall_single", ow_s.to_json)
     # 壁ありダブル取得
     ow_d = season.users.select(:name, :ow_d_rate, :ow_d_win, :ow_d_lose).where.not(ow_d_win: 0, ow_d_lose: 0).order(ow_d_rate: :desc, ow_d_win: :desc, updated_at: :asc).limit(5)
-    data.store("ow_d", ow_d.to_json)
-    render json: data.to_json
+    data.store("onwall_double", ow_d.to_json)
+    render json: data
   end
 
   def getrank

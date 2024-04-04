@@ -42,12 +42,12 @@
       <% rank = @page ? (@page - 1) * Kaminari.configure.default_per_page + 1 : 1 %>
       <% @stats.each do |stats| %>
         <tr class="clickable-row" data-href="<%= user_path(id: stats) %>">
-          <td><%= rank %></td>
-          <td><%= stats.name %></td>
-          <td><%= stats.nw_s_rate %></td>
-          <td><%= stats.nw_s_win %></td>
-          <td><%= stats.nw_s_lose %></td>
-          <td><%= stats.nw_s_lose != 0 ? (stats.nw_s_win.to_f / (stats.nw_s_win.to_f + stats.nw_s_lose.to_f) * 100).round(2) : 100 %>%</td>
+          <td class="clickable-row" data-href="<%= user_path(id: stats) %>"><%= rank %></td>
+          <td class="clickable-row" data-href="<%= user_path(id: stats) %>"><%= stats.name %></td>
+          <td class="clickable-row" data-href="<%= user_path(id: stats) %>"><%= stats.nw_s_rate %></td>
+          <td class="clickable-row" data-href="<%= user_path(id: stats) %>"><%= stats.nw_s_win %></td>
+          <td class="clickable-row" data-href="<%= user_path(id: stats) %>"><%= stats.nw_s_lose %></td>
+          <td class="clickable-row" data-href="<%= user_path(id: stats) %>"><%= stats.nw_s_lose != 0 ? (stats.nw_s_win.to_f / (stats.nw_s_win.to_f + stats.nw_s_lose.to_f) * 100).round(2) : 100 %>%</td>
         </tr>
         <% rank += 1 %>
       <% end %>
@@ -61,3 +61,12 @@ tbody tr:hover {
     background-color:#a9ceec ;
 }
 </style>
+
+<script>
+  $(function($) {
+    $(".clickable-row").css("cursor","pointer").click(function() {
+      console.log("hoge")
+      location.href = $(this).data("href")
+    });
+  });
+</script>

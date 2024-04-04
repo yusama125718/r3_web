@@ -43,12 +43,12 @@
     </thead>
     <tbody>
       <% @user.each do |user| %>
-        <tr class="clickable-row" data-href="<%= user_path(id: user) %>">
-          <td><%= user.name %></td>
-          <td><%= user.nw_s_rate %></td>
-          <td><%= user.ow_s_rate %></td>
-          <td><%= user.nw_d_rate %></td>
-          <td><%= user.ow_d_rate %></td>
+        <tr class="clickable-row" data-href="<%= user_path(id: user, season: {season: @season.id}) %>">
+          <td class="clickable-row" data-href="<%= user_path(id: user, season: {season: @season.id}) %>"><%= user.name %></td>
+          <td class="clickable-row" data-href="<%= user_path(id: user, season: {season: @season.id}) %>"><%= user.nw_s_rate %></td>
+          <td class="clickable-row" data-href="<%= user_path(id: user, season: {season: @season.id}) %>"><%= user.ow_s_rate %></td>
+          <td class="clickable-row" data-href="<%= user_path(id: user, season: {season: @season.id}) %>"><%= user.nw_d_rate %></td>
+          <td class="clickable-row" data-href="<%= user_path(id: user, season: {season: @season.id}) %>"><%= user.ow_d_rate %></td>
         </tr>
       <% end %>
     </tbody>
@@ -61,3 +61,11 @@ tbody tr:hover {
     background-color:#a9ceec ;
 }
 </style>
+
+<script>
+  $(function($) {
+    $(".clickable-row").css("cursor","pointer").click(function() {
+      location.href = $(this).data("href")
+    });
+  });
+</script>

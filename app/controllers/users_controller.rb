@@ -34,4 +34,27 @@ class UsersController < ApplicationController
     end
     redirect_to user_show_path(user_id: params[:user_id], info: params[:info])
   end
+
+  def delete
+    if logged_in?
+      if params[:season].blank?
+        if UserInfo.find_by(id: params[:id]).destroy
+          flash[:success] = "全データを削除しました"
+          redirect_to users_path
+        else
+          flash[:warning] = "削除に失敗しました"
+          redirect_to request.referer
+        end
+      else
+        season = Season.find_by(id: params[:season])
+        if season.users.find_by(id: params[:id]).delete
+          flash[:success] = season.name + "のデータを削除しました"
+          redirect_to users_path
+        else
+          flash[:warning] = "削除に失敗しました"
+          redirect_to request.referer
+        end
+      end
+    end
+  end
 end

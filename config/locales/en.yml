@@ -31,6 +31,8 @@ en:
   language: "Language"
   delete: "Delete"
   name: "Name"
+  nopage: "The page is not found"
+  backtop: "Back to Top"
   search:
     title: "Search"
     submit: "Search"
@@ -71,6 +73,12 @@ en:
     log_title: "'s Match Log"
     name_his: "Name History"
     user_name: "User Name"
+    newname: "New Name"
+    change_name: "Change name"
+    delete: "Delete Season Data"
+    delete_all: "Delete All Data"
+    confirm: "Realy Delete This Season User Data?"
+    confirm_all: "Realy Delete All Season User Data?"
   rule:
     no_wall_single: "Boundaries Off/Single Disc"
     no_wall_double: "Boundaries Off/Double Disc"
@@ -96,7 +104,7 @@ en:
     start: "Start New Season"
     start_at: "Started at"
     finish_at: "Finished at"
-    confirm: "Delete Season"
+    confirm: "Realy Delete Season?"
   time:
     formats:
       default: "%-b %-d %-p %-I:%-M"
