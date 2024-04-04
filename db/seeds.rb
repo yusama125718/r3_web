@@ -9,10 +9,10 @@
 #   end
 Account.create!(
    name: 'admin',
-   password: "pass", 
-   password_confirmation: "pass"
+   password: "hogehoge.rate", 
+   password_confirmation: "hogehoge.rate"
 )
 
 Season.create!(
-   name: 'Season1'
+   name: 'TestSeason1'
 )
