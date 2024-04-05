@@ -46,10 +46,10 @@ module ApiHelper
   end
 
   PLACE = {
-    1 => "first",
-    2 => "second",
-    3 => "third",
-    4 => "fourth",
-    5 => "fiveth"
+    1 => "1",
+    2 => "2",
+    3 => "3",
+    4 => "4",
+    5 => "5"
   }
 end
