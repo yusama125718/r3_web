@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   post '/api/new', to: 'api#create'
   get '/api/top', to: 'api#gettop'
   get '/api/rank', to: 'api#getrank'
+  get '/api/status', to: 'api#getstatus'
+  get '/api/util', to: 'api#getutil'
 
   resources :stats, only: [:logs, :nw_d, :nw_s, :ow_d, :ow_s] do
     collection do
