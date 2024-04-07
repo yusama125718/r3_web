@@ -5,13 +5,12 @@ class ApiController < ApplicationController
   # リザルト受け取り処理
   def create
     if Settings.api_key != params[:api_key] 
+      render  'errors/404', status: :not_found
       return
     end
     # NPCがいる場合弾く
-    if params[:name_a1].start_with?("NPC ") || params[:name_a2].start_with?("NPC ") || params[:name_b1].start_with?("NPC ") || params[:name_b2].start_with?("NPC ")
-      return
-    end
-    if params[:name_a1].start_with?("AI ") || params[:name_a2].start_with?("AI ") || params[:name_b1].start_with?("AI ") || params[:name_b2].start_with?("AI ")
+    if params[:name_a1].start_with?("NPC ") || params[:name_a2].start_with?("NPC ") || params[:name_b1].start_with?("NPC ") || params[:name_b2].start_with?("NPC ") || params[:name_a1].start_with?("AI ") || params[:name_a2].start_with?("AI ") || params[:name_b1].start_with?("AI ") || params[:name_b2].start_with?("AI ")
+      render json: { result: "CPU戦なので記録出来ませんでした。", status: "faild"}
       return
     end
     season = Season.find_by(finished_at: nil)
@@ -22,6 +21,7 @@ class ApiController < ApplicationController
       red = params[:name_a2] == "" ? [params[:name_a1], ""] : [params[:name_a2], ""]
       blue = params[:name_b2] == "" ? [params[:name_b1], ""] : [params[:name_b2], ""]
     else
+      render json: { result: "シングルスでないので記録出来ませんでした。", status: "faild"}
       return
     # 今のとこシングルスのみ想定なのでコメントアウト
     # else
@@ -85,6 +85,7 @@ class ApiController < ApplicationController
     score_max = params[:score_max]
     # 同点だったら記録しない
     if score_red == score_blue
+      render json: { result: "同点なので記録できませんでした", status: "faild"}
       return
     end
     # シングルス専用レート計算処理
@@ -160,12 +161,14 @@ class ApiController < ApplicationController
             l.nw_s_lose += 1
             l.nw_s_rate -= rate[:lose]
           end
-          w.save!
-          l.save!
+          if w.save && l.save
+            render json: { result: "保存しました", status: "success"}
+          else 
+            render json: { result: "保存に失敗しました", status: "faild"}
+          end
         end
       end
     end
-    render json: { result:"success" }
   end
 
   def gettop
