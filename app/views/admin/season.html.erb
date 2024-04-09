@@ -22,7 +22,7 @@
             <td><%= season.name %></td>
             <td><%= l season.created_at %></td>
             <td><%= season.finished_at.nil? ? "" : (l season.finished_at) %></td>
-            <td><%= button_to (t "delete"), season_admin_path(id: season.id), {method: :get, data: {turbo_confirm: (t "season.confirm")}, class: 'btn btn-danger'} %></td>         
+            <td><%= button_to (t "delete"), season_admin_path(id: season.id), {method: :delete, data: {turbo_confirm: (t "season.confirm")}, class: 'btn btn-danger'} %></td>         
           </tr>
         <% end %>
       </tbody>

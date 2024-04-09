@@ -28,7 +28,7 @@ Rails.application.routes.draw do
       post :season, to: 'admin#new_season'
     end
     member do
-      get :season, to: 'admin#delete_season'
+      delete :season, to: 'admin#delete_season'
     end
   end
 
