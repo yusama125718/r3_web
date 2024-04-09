@@ -47,7 +47,7 @@ module ApiHelper
 
   def TopData(season)
     data = {}
-    nw_s = season.users.select("name, nw_s_rate as rate, nw_s_win as win, nw_s_lose as lose, id").where.not(nw_s_win: 0, nw_s_lose: 0).order(nw_s_rate: :desc, nw_s_win: :desc, updated_at: :asc).limit(5)
+    nw_s = season.users.select("name, nw_s_rate as rate, nw_s_win as win, nw_s_lose as lose, id").where.not(nw_s_win: 0, nw_s_lose: 0).order(nw_s_rate: :desc, nw_s_win: :desc, updated_at: :asc).limit(10)
     for i in 1..5
       if nw_s.size < i
         break;
@@ -63,7 +63,7 @@ module ApiHelper
       data[:nowall_single][i.to_s.to_sym][:id] =  data[:nowall_single][i.to_s.to_sym][:id].to_s
     end
     # 壁なしダブル取得
-    nw_d = season.users.select("name, nw_d_rate as rate, nw_d_win as win, nw_d_lose as lose, id").where.not(nw_d_win: 0, nw_d_lose: 0).order(nw_d_rate: :desc, nw_d_win: :desc, updated_at: :asc).limit(5)
+    nw_d = season.users.select("name, nw_d_rate as rate, nw_d_win as win, nw_d_lose as lose, id").where.not(nw_d_win: 0, nw_d_lose: 0).order(nw_d_rate: :desc, nw_d_win: :desc, updated_at: :asc).limit(10)
     for i in 1..5
       if nw_d.size < i
         break;
@@ -79,7 +79,7 @@ module ApiHelper
       data[:nowall_double][i.to_s.to_sym][:id] =  data[:nowall_double][i.to_s.to_sym][:id].to_s
     end
     # 壁ありシングル取得
-    ow_s = season.users.select("name, ow_s_rate as rate, ow_s_win as win, ow_s_lose as lose, id").where.not(ow_s_win: 0, ow_s_lose: 0).order(ow_s_rate: :desc, ow_s_win: :desc, updated_at: :asc).limit(5)
+    ow_s = season.users.select("name, ow_s_rate as rate, ow_s_win as win, ow_s_lose as lose, id").where.not(ow_s_win: 0, ow_s_lose: 0).order(ow_s_rate: :desc, ow_s_win: :desc, updated_at: :asc).limit(10))
     for i in 1..5
       if ow_s.size < i
         break;
@@ -95,7 +95,7 @@ module ApiHelper
       data[:onwall_single][i.to_s.to_sym][:id] =  data[:onwall_single][i.to_s.to_sym][:id].to_s
     end
     # 壁ありダブル取得
-    ow_d = season.users.select("name, ow_d_rate as onwall_double_rate, ow_d_win as onwall_double_win, ow_d_lose as onwall_double_lose, id").where.not(ow_d_win: 0, ow_d_lose: 0).order(ow_d_rate: :desc, ow_d_win: :desc, updated_at: :asc).limit(5)
+    ow_d = season.users.select("name, ow_d_rate as rate, ow_d_win as win, ow_d_lose as lose, id").where.not(ow_d_win: 0, ow_d_lose: 0).order(ow_d_rate: :desc, ow_d_win: :desc, updated_at: :asc).limit(10)
     for i in 1..5
       if ow_d.size < i
         break;
