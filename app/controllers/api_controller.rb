@@ -117,17 +117,17 @@ class ApiController < ApplicationController
       if winner == "red"
         winner_name = red
         winner_info = red_info
-        red_diff = "+" + rate[:win]
+        red_diff = "+" + rate[:win].to_s
         loser_name = blue
         loser_info = blue_info
-        blue_diff = "-" + rate[:lose]
+        blue_diff = "-" + rate[:lose].to_s
       elsif winner == "blue"
         winner_name = blue
         winner_info = blue_info
-        blue_diff = "+" + rate[:win]
+        blue_diff = "+" + rate[:win].to_s
         loser_name = red
         loser_info = red_info
-        red_diff = "-" + rate[:lose]
+        red_diff = "-" + rate[:lose].to_s
       end
       Match.transaction do
         Match.create!(guid: guid, redname1: red[0], redname2: red[1], bluename1: blue[0], bluename2: blue[1], redscore: score_red, bluescore: score_blue, winner1: winner_name[0], winner2: winner_name[1], hopping_allowed: hopping_allowed, game_double: game_double, game_ex_speed: game_ex_speed, game_boundaries: game_boundaries, score_max: score_max, is_single: is_single, season_id: season.id, reddiff1: red_diff, bluediff1: blue_diff)
