@@ -177,60 +177,14 @@ class ApiController < ApplicationController
     season = params[:season].blank? ? Season.find_by(finished_at: nil) : Season.find_by(id: params[:season])
     data[:season] = season.name
     # 壁なしシングルTOP5取得
-    nw_s = season.users.select("name, nw_s_rate as nowall_single_rate, nw_s_win as nowall_single_win, nw_s_lose as nowall_single_lose, id").where.not(nw_s_win: 0, nw_s_lose: 0).order(nw_s_rate: :desc, nw_s_win: :desc, updated_at: :asc).limit(5)
-    for i in 1..5
-      if nw_s.size < i
-        break;
-      end
-      if i == 1
-        data[:nowall_single] = {ApiHelper::PLACE[i].to_sym=> nw_s[i - 1]}
-      else
-        data[:nowall_single][ApiHelper::PLACE[i]] = nw_s[i - 1]
-      end
-    end
-    # 壁なしダブル取得
-    nw_d = season.users.select("name, nw_d_rate as nowall_double_rate, nw_d_win as nowall_double_win, nw_d_lose as nowall_double_lose, id").where.not(nw_d_win: 0, nw_d_lose: 0).order(nw_d_rate: :desc, nw_d_win: :desc, updated_at: :asc).limit(5)
-    for i in 1..5
-      if nw_d.size < i
-        break;
-      end
-      if i == 1
-        data[:nowall_double] = {ApiHelper::PLACE[i].to_sym=> nw_d[i - 1]}
-      else
-        data[:nowall_double][ApiHelper::PLACE[i]] = nw_d[i - 1]
-      end
-    end
-    # 壁ありシングル取得
-    ow_s = season.users.select("name, ow_s_rate as onwall_single_rate, ow_s_win as onwall_single_win, ow_s_lose as onwall_single_lose, id").where.not(ow_s_win: 0, ow_s_lose: 0).order(ow_s_rate: :desc, ow_s_win: :desc, updated_at: :asc).limit(5)
-    for i in 1..5
-      if ow_s.size < i
-        break;
-      end
-      if i == 1
-        data[:onwall_single] = {ApiHelper::PLACE[i].to_sym=> ow_s[i - 1]}
-      else
-        data[:onwall_single][ApiHelper::PLACE[i]] = ow_s[i - 1]
-      end
-    end
-    # 壁ありダブル取得
-    ow_d = season.users.select("name, ow_d_rate as onwall_double_rate, ow_d_win as onwall_double_win, ow_d_lose as onwall_double_lose, id").where.not(ow_d_win: 0, ow_d_lose: 0).order(ow_d_rate: :desc, ow_d_win: :desc, updated_at: :asc).limit(5)
-    for i in 1..5
-      if ow_d.size < i
-        break;
-      end
-      if i == 1
-        data[:onwall_double] = {ApiHelper::PLACE[i].to_sym=> ow_d[i - 1]}
-      else
-        data[:onwall_double][ApiHelper::PLACE[i]] = ow_d[i - 1]
-      end
-    end
+    data[:top] = TopData(season)
     render json: data.to_json
   end
 
   def getrank
     data = {}
     season = params[:season].blank? ? Season.find_by(finished_at: nil) : Season.find_by(id: params[:season])
-    data[:rank] = season.users.select("name, nw_s_rate as nowall_single_rate, nw_s_win as nowall_single_win, nw_s_lose as nowall_single_lose, nw_d_rate as nowall_double_rate, nw_d_win as nowall_double_win, nw_d_lose as nowall_double_lose, ow_s_rate as onwall_single_rate, ow_s_win as onwall_single_win, ow_s_lose as onwall_single_lose, ow_d_rate as onwall_double_rate, ow_d_win as onwall_double_win, ow_d_lose as onwall_double_lose, id").where.not(nw_s_win: 0, nw_s_lose: 0, nw_d_win: 0, nw_d_lose: 0 ,ow_s_win: 0, ow_s_lose: 0, ow_d_win: 0, ow_d_lose: 0)
+    data[:rank] = RankData(season)
     data[:api_ver] = Settings.api_ver
     render json: data.to_json
   end
@@ -239,11 +193,7 @@ class ApiController < ApplicationController
     data = {}
     data[:api_ver] = Settings.api_ver
     season = params[:season].blank? ? Season.find_by(finished_at: nil) : Season.find_by(id: params[:season])
-    data[:season] = {:name => season.name, :id => season.id, :started_at => season.created_at, :finished_at => season.finished_at}
-    data[:players] = {:nowall_single => season.users.where.not(nw_s_win: 0, nw_s_lose: 0).count(),
-                      :nowall_double => season.users.where.not(nw_d_win: 0, nw_d_lose: 0).count(),
-                      :onwall_single => season.users.where.not(ow_s_win: 0, ow_s_lose: 0).count(),
-                      :onwall_double => season.users.where.not(ow_d_win: 0, ow_d_lose: 0).count()}
+    data[:season] = StatusData(season)
     render json: data.to_json
   end
 
@@ -252,72 +202,9 @@ class ApiController < ApplicationController
     data[:api_ver] = Settings.api_ver
     season = params[:season].blank? ? Season.find_by(finished_at: nil) : Season.find_by(id: params[:season])
     data[:season] = season.name
-    # 壁なしシングルTOP5取得
-    nw_s = season.users.select("name, nw_s_rate as nowall_single_rate, nw_s_win as nowall_single_win, nw_s_lose as nowall_single_lose, id").where.not(nw_s_win: 0, nw_s_lose: 0).order(nw_s_rate: :desc, nw_s_win: :desc, updated_at: :asc).limit(5)
-    for i in 1..5
-      if nw_s.size < i
-        break;
-      end
-      if i == 1
-        data[:top] ={:nowall_single => {ApiHelper::PLACE[i].to_sym => nw_s[i - 1]}}
-      else
-        data[:top][:nowall_single][ApiHelper::PLACE[i]] = nw_s[i - 1]
-      end
-    end
-    # 壁なしダブル取得
-    nw_d = season.users.select("name, nw_d_rate as nowall_double_rate, nw_d_win as nowall_double_win, nw_d_lose as nowall_double_lose, id").where.not(nw_d_win: 0, nw_d_lose: 0).order(nw_d_rate: :desc, nw_d_win: :desc, updated_at: :asc).limit(5)
-    for i in 1..5
-      if nw_d.size < i
-        break;
-      end
-      if i == 1
-        if data[:top].nil?
-          data[:top] = {:nowall_double => {ApiHelper::PLACE[i].to_sym => nw_d[i - 1]}}
-        else
-          data[:top][:nowall_double] = {ApiHelper::PLACE[i].to_sym=> nw_d[i - 1]}
-        end
-      else
-        data[:top][:nowall_double][ApiHelper::PLACE[i]] = nw_d[i - 1]
-      end
-    end
-    # 壁ありシングル取得
-    ow_s = season.users.select("name, ow_s_rate as onwall_single_rate, ow_s_win as onwall_single_win, ow_s_lose as onwall_single_lose, id").where.not(ow_s_win: 0, ow_s_lose: 0).order(ow_s_rate: :desc, ow_s_win: :desc, updated_at: :asc).limit(5)
-    for i in 1..5
-      if ow_s.size < i
-        break;
-      end
-      if i == 1
-        if data[:top].nil?
-          data[:top] = {:onwall_single => {ApiHelper::PLACE[i].to_sym=> ow_s[i - 1]}}
-        else
-          data[:top][:onwall_single] = {ApiHelper::PLACE[i].to_sym=> ow_s[i - 1]}
-        end
-      else
-        data[:top][:onwall_single][ApiHelper::PLACE[i]] = ow_s[i - 1]
-      end
-    end
-    # 壁ありダブル取得
-    ow_d = season.users.select("name, ow_d_rate as onwall_double_rate, ow_d_win as onwall_double_win, ow_d_lose as onwall_double_lose, id").where.not(ow_d_win: 0, ow_d_lose: 0).order(ow_d_rate: :desc, ow_d_win: :desc, updated_at: :asc).limit(5)
-    for i in 1..5
-      if ow_d.size < i
-        break;
-      end
-      if i == 1
-        if data[:top].nil?
-          data[:top] = {:onwall_double => {ApiHelper::PLACE[i].to_sym=> ow_d[i - 1]}}
-        else
-          data[:top][:onwall_double] = {ApiHelper::PLACE[i].to_sym=> ow_d[i - 1]}
-        end
-      else
-        data[:top][:onwall_double][ApiHelper::PLACE[i]] = ow_d[i - 1]
-      end
-    end
-    data[:rank] = season.users.select("name, nw_s_rate as nowall_single_rate, nw_s_win as nowall_single_win, nw_s_lose as nowall_single_lose, nw_d_rate as nowall_double_rate, nw_d_win as nowall_double_win, nw_d_lose as nowall_double_lose, ow_s_rate as onwall_single_rate, ow_s_win as onwall_single_win, ow_s_lose as onwall_single_lose, ow_d_rate as onwall_double_rate, ow_d_win as onwall_double_win, ow_d_lose as onwall_double_lose, id").where.not(nw_s_win: 0, nw_s_lose: 0, nw_d_win: 0, nw_d_lose: 0 ,ow_s_win: 0, ow_s_lose: 0, ow_d_win: 0, ow_d_lose: 0)
-    data[:status] = {:season => {:name => season.name, :id => season.id, :started_at => season.created_at, :finished_at => season.finished_at}}
-    data[:status][:players] = {:nowall_single => season.users.where.not(nw_s_win: 0, nw_s_lose: 0).count(),
-                               :nowall_double => season.users.where.not(nw_d_win: 0, nw_d_lose: 0).count(),
-                               :onwall_single => season.users.where.not(ow_s_win: 0, ow_s_lose: 0).count(),
-                               :onwall_double => season.users.where.not(ow_d_win: 0, ow_d_lose: 0).count()}
+    data[:top] = TopData(season)
+    data[:rank] = RankData(season)
+    data[:status] = StatusData(season)
     render json: data.to_json
   end
 end

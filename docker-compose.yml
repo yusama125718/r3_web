@@ -19,7 +19,6 @@ services:
       - .:/rails_app
     ports:
       - 3000:3000
-      # - 80:80
     stdin_open: true
     tty: true
     depends_on:
