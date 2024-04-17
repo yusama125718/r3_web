@@ -101,23 +101,39 @@ module ApiHelper
         break;
       end
       if i == 1
-        data[:onwall_double] = {ApiHelper::PLACE[i.to_s.to_sym].to_sym=> ow_d[i - 1]}
+        data[:onwall_double] = {i.to_s.to_sym=> ow_d[i - 1]}
       else
-        data[:onwall_double][ApiHelper::PLACE[i.to_s.to_sym]] = ow_d[i - 1]
+        data[:onwall_double][i.to_s.to_sym] = ow_d[i - 1]
       end
       data[:onwall_double][i.to_s.to_sym][:rate] =  data[:onwall_double][i.to_s.to_sym][:rate].to_s
       data[:onwall_double][i.to_s.to_sym][:win] =  data[:onwall_double][i.to_s.to_sym][:win].to_s
       data[:onwall_double][i.to_s.to_sym][:lose] =  data[:onwall_double][i.to_s.to_sym][:lose].to_s
       data[:onwall_double][i.to_s.to_sym][:id] =  data[:onwall_double][i.to_s.to_sym][:id].to_s
     end
+    # DMA取得
+    dma = season.users.select("name, dma_rate as rate, dma_win as win, dma_lose as lose, id").where.not(dma_win: 0, dma_lose: 0).order(dma_rate: :desc, dma_win: :desc, updated_at: :asc).limit(10)
+    for i in 1..10
+      if ow_d.size < i
+        break;
+      end
+      if i == 1
+        data[:dma] = {i.to_s.to_sym=> dma[i - 1]}
+      else
+        data[:dma][i.to_s.to_sym] = dma[i - 1]
+      end
+      data[:dma][i.to_s.to_sym][:rate] =  data[:dma][i.to_s.to_sym][:rate].to_s
+      data[:dma][i.to_s.to_sym][:win] =  data[:dma][i.to_s.to_sym][:win].to_s
+      data[:dma][i.to_s.to_sym][:lose] =  data[:dma][i.to_s.to_sym][:lose].to_s
+      data[:dma][i.to_s.to_sym][:id] =  data[:dma][i.to_s.to_sym][:id].to_s
+    end
     return data
   end
 
   def RankData(season)
-    value = season.users.select(:name, :nw_s_rate , :nw_s_win, :nw_s_lose, :nw_d_rate, :nw_d_win, :nw_d_lose, :ow_s_rate, :ow_s_win, :ow_s_lose, :ow_d_rate, :ow_d_win, :ow_d_lose, :id).where.not(nw_s_win: 0, nw_s_lose: 0, nw_d_win: 0, nw_d_lose: 0 ,ow_s_win: 0, ow_s_lose: 0, ow_d_win: 0, ow_d_lose: 0)
+    value = season.users.select(:name, :nw_s_rate , :nw_s_win, :nw_s_lose, :nw_d_rate, :nw_d_win, :nw_d_lose, :ow_s_rate, :ow_s_win, :ow_s_lose, :ow_d_rate, :ow_d_win, :ow_d_lose, :dma_rate, :dma_win, :dma_lose, :id).where.not(nw_s_win: 0, nw_s_lose: 0, nw_d_win: 0, nw_d_lose: 0 ,ow_s_win: 0, ow_s_lose: 0, ow_d_win: 0, ow_d_lose: 0)
     data = []
     value.each do |v|
-      data.append({:name => v.name, :nowall_single => {:rate => v.nw_s_rate.to_s, :win => v.nw_s_win.to_s, :lose => v.nw_s_lose.to_s}, :nowall_double => {:rate => v.nw_d_rate.to_s, :win => v.nw_d_win.to_s, :lose => v.nw_d_lose.to_s}, :onwall_single => {:rate => v.ow_s_rate.to_s, :win => v.ow_s_win.to_s, :lose => v.ow_s_lose.to_s}, :onwall_double => {:rate => v.ow_d_rate.to_s, :win => v.ow_d_win.to_s, :lose => v.ow_d_lose.to_s}})
+      data.append({:name => v.name, :nowall_single => {:rate => v.nw_s_rate.to_s, :win => v.nw_s_win.to_s, :lose => v.nw_s_lose.to_s}, :nowall_double => {:rate => v.nw_d_rate.to_s, :win => v.nw_d_win.to_s, :lose => v.nw_d_lose.to_s}, :onwall_single => {:rate => v.ow_s_rate.to_s, :win => v.ow_s_win.to_s, :lose => v.ow_s_lose.to_s}, :onwall_double => {:rate => v.ow_d_rate.to_s, :win => v.ow_d_win.to_s, :lose => v.ow_d_lose.to_s}, :dma => {:rate => v.dma_rate.to_s, :win => v.dma_win.to_s, :lose => v.dma_lose.to_s}})
     end
     return data
   end
@@ -128,8 +144,9 @@ module ApiHelper
     data[:players] = {:nowall_single => season.users.where.not(nw_s_win: 0, nw_s_lose: 0).count().to_s,
                       :nowall_double => season.users.where.not(nw_d_win: 0, nw_d_lose: 0).count().to_s,
                       :onwall_single => season.users.where.not(ow_s_win: 0, ow_s_lose: 0).count().to_s,
-                      :onwall_double => season.users.where.not(ow_d_win: 0, ow_d_lose: 0).count().to_s}
-    data[:message] = Settings.api_message
+                      :onwall_double => season.users.where.not(ow_d_win: 0, ow_d_lose: 0).count().to_s,
+                      :dma => season.users.where.not(dma_win: 0, dma_lose: 0).count().to_s}
+    data[:message] = season.message
     return data
   end
 end

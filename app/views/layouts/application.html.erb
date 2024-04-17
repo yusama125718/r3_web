@@ -10,6 +10,7 @@
     <%= javascript_importmap_tags %>
   </head>
   
+  <%= turbo_frame_tag 'modal' %>
   <body class="h-100 no-gutters m-0">
     <header class="w-100 d-flex justify-content-between align-items-center px-3 bg-dark border-bottom border-bottom-dark" data-bs-theme="dark" style="height: 60px;">
       <ul class="navbar-nav d-flex flex-row">
@@ -41,6 +42,9 @@
           </li>
           <li class="nav-item mb-2">
             <a class="nav-link" href="<%= ow_d_stats_path %>"><%= t "rule.on_wall_double" %></a>
+          </li>
+          <li class="nav-item mb-2">
+            <a class="nav-link" href="<%= dma_stats_path %>"><%= t "rule.dma" %></a>
           </li>
           <li class="nav-item mb-2">
             <a class="nav-link" href="<%= users_path %>"><%= t "nav.users" %></a>

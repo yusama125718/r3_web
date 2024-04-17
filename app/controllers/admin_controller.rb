@@ -19,6 +19,25 @@ class AdminController < ApplicationController
     else
       flash[:warning] = "選択したシーズンは進行中です。"
     end
-    redirect_to season_admin_index_path
+    redirect_to action: :season
+  end
+
+  def edit_season
+    render "edit"
+  end
+
+  def update_season
+    season = Season.find_by(id: params[:id])
+    if season.nil?
+      flash.now[:warning] = "シーズンが存在しません"
+    else
+      season.message = params[:message]
+      if season.save
+        flash[:success] = "メッセージを更新しました"
+      else
+        flash.now[:warning] = "シーズンが存在しません"
+      end
+    end
+    redirect_to action: :season
   end
 end
