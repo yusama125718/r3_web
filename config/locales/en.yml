@@ -41,6 +41,9 @@ en:
     jump: "Allow Jump"
     log_title: "Match Log"
     rank_title: "Ranking"
+    dma:
+      on: "DMA ON"
+      off: "DMA OFF"
   user:
     title: "Users"
     ex_title: "'s User Data"

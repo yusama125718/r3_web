@@ -75,6 +75,7 @@ class ApiController < ApplicationController
     #     blueuser[1] = User.create!(name: blue[1], user_info: blue_info[1], season_id: season.id)
     #   end
     # end 
+    dma = params[:dma] == "on"
     score_red = params[:score_a].to_i
     score_blue = params[:score_b].to_i
     guid = params[:guid]
@@ -130,7 +131,7 @@ class ApiController < ApplicationController
         red_diff = "-" + rate[:lose].to_s
       end
       Match.transaction do
-        Match.create!(guid: guid, redname1: red[0], redname2: red[1], bluename1: blue[0], bluename2: blue[1], redscore: score_red, bluescore: score_blue, winner1: winner_name[0], winner2: winner_name[1], hopping_allowed: hopping_allowed, game_double: game_double, game_ex_speed: game_ex_speed, game_boundaries: game_boundaries, score_max: score_max, is_single: is_single, season_id: season.id, reddiff1: red_diff, bluediff1: blue_diff)
+        Match.create!(guid: guid, redname1: red[0], redname2: red[1], bluename1: blue[0], bluename2: blue[1], redscore: score_red, bluescore: score_blue, winner1: winner_name[0], winner2: winner_name[1], hopping_allowed: hopping_allowed, game_double: game_double, game_ex_speed: game_ex_speed, game_boundaries: game_boundaries, score_max: score_max, is_single: is_single, season_id: season.id, reddiff1: red_diff, bluediff1: blue_diff, dma: dma)
         if is_single
           if winner == "red"
             w = reduser[0]
@@ -160,6 +161,18 @@ class ApiController < ApplicationController
             w.nw_s_rate += rate[:win]
             l.nw_s_lose += 1
             l.nw_s_rate -= rate[:lose]
+          end
+          # dmaだった場合追加で処理する
+          if dma
+            if score_red > score_blue
+              rate = GetRate(reduser[0].dma_rate, score_red, blueuser[0].dma_rate, score_blue, score_max)
+            else
+              rate = GetRate(blueuser[0].dma_rate, score_blue, reduser[0].dma_rate, score_red, score_max)
+            end
+            w.dma_win += 1
+            l.dma_lose += 1
+            w.dma_rate += rate[:win]
+            l.dma_rate -= rate[:lose]
           end
           if w.save && l.save
             render json: { result: "保存しました", status: "success"}
