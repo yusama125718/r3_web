@@ -40,6 +40,9 @@ ja:
     jump: "Allow Jump"
     log_title: "試合ログ"
     rank_title: "ランキング"
+    dma:
+      on: "DMA ON"
+      off: "DMA OFF"
   user:
     title: "ユーザー一覧"
     ex_title: "のユーザーデータ"
