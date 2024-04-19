@@ -163,8 +163,10 @@ class ApiController < ApplicationController
           end
           if w.save && l.save
             render json: { result: "保存しました", status: "success"}
+            return
           else 
             render json: { result: "保存に失敗しました", status: "faild"}
+            return
           end
         end
       end
