@@ -18,6 +18,11 @@ class StatsController < ApplicationController
     @season = params[:season].blank? || params[:season][:season].blank? ? Season.find_by(finished_at: nil) : Season.find_by(id: params[:season][:season])
     @stats = @season.users.where.not(ow_d_win: 0, ow_d_lose: 0).order(ow_d_rate: :desc, ow_d_win: :desc, updated_at: :asc).page(params[:page])
   end
+
+  def dma
+    @season = params[:season].blank? || params[:season][:season].blank? ? Season.find_by(finished_at: nil) : Season.find_by(id: params[:season][:season])
+    @stats = @season.users.where.not(dma_win: 0, dma_lose: 0).order(dma_rate: :desc, dma_win: :desc, updated_at: :asc).page(params[:page])
+  end
   
   def logs
     @season = params[:q].blank? || params[:q][:season].blank? ? Season.find_by(finished_at: nil) : Season.find_by(id: params[:q][:season])

@@ -1,0 +1,72 @@
+<p class="h2"><%= t "rule.dma" %> <%= t "stats.rank_title" %></p>
+<br>
+<div class="accordion mb-3" id="accordionExample">
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+        <%= t "season.select" %>
+      </button>
+    </h2>
+    <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+        <%= form_for :season, url: dma_stats_path, method: :get do |f| %>
+          <div class="row g-4 mb-3">
+            <div class="col-auto">
+              <%= f.select :season, Season.all.map{|s| [s.name, s.id]}, {selected: @season.id}, {class: "form-control col-6"} %>
+            </div>    
+            <div class="col-auto">
+              <%= f.submit (t "season.view"), class: 'btn btn-primary' %>
+            </div>
+            <div class="col-auto">
+              <%= link_to (t "season.reset"), dma_stats_path(@page), class: "btn btn-outline-secondary" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<div>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th><%= t "stats.rank" %></th>
+        <th><%= t "name" %></th>
+        <th><%= t "stats.rate" %></th>
+        <th><%= t "stats.win" %></th>
+        <th><%= t "stats.lose" %></th>
+        <th><%= t "stats.win_p" %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% rank = @page ? (@page - 1) * Kaminari.configure.default_per_page + 1 : 1 %>
+      <% @stats.each do |stats| %>
+        <tr class="clickable-row" data-href="<%= user_path(id: stats) %>">
+          <td class="clickable-row" data-href="<%= user_path(id: stats) %>"><%= rank %></td>
+          <td class="clickable-row" data-href="<%= user_path(id: stats) %>"><%= stats.name %></td>
+          <td class="clickable-row" data-href="<%= user_path(id: stats) %>"><%= stats.dma_rate %></td>
+          <td class="clickable-row" data-href="<%= user_path(id: stats) %>"><%= stats.dma_win %></td>
+          <td class="clickable-row" data-href="<%= user_path(id: stats) %>"><%= stats.dma_lose %></td>
+          <td class="clickable-row" data-href="<%= user_path(id: stats) %>"><%= stats.dma_lose != 0 ? (stats.dma_win.to_f / (stats.dma_win.to_f + stats.dma_lose.to_f) * 100).round(2) : 100 %>%</td>
+        </tr>
+        <% rank += 1 %>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<%= paginate @stats, theme: 'bootstrap-5'  %>
+
+<style scoped>
+tbody tr:hover {
+    background-color:#a9ceec ;
+}
+</style>
+
+<script>
+  $(function($) {
+    $(".clickable-row").css("cursor","pointer").click(function() {
+      console.log("hoge")
+      location.href = $(this).data("href")
+    });
+  });
+</script>

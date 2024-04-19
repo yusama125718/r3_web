@@ -19,6 +19,7 @@ Rails.application.routes.draw do
       get :nw_s
       get :ow_d
       get :ow_s
+      get :dma
     end
   end
 
@@ -29,6 +30,8 @@ Rails.application.routes.draw do
     end
     member do
       delete :season, to: 'admin#delete_season'
+      get "season/edit", to: 'admin#edit_season'
+      post "season/edit", to: 'admin#update_season'
     end
   end
 

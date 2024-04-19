@@ -1,6 +1,9 @@
 ja:
   language: "Language"
   delete: "削除"
+  confirm: "決定"
+  close: "閉じる"
+  edit: "編集"
   name: "名前"
   nopage: "お探しのページが見つかりませんでした"
   backtop: "トップへ戻る"
@@ -37,6 +40,9 @@ ja:
     jump: "Allow Jump"
     log_title: "試合ログ"
     rank_title: "ランキング"
+    dma:
+      on: "DMA ON"
+      off: "DMA OFF"
   user:
     title: "ユーザー一覧"
     ex_title: "のユーザーデータ"
@@ -60,6 +66,7 @@ ja:
     double: "ダブル"
     no_wall: "壁なし"
     on_wall: "壁あり"
+    dma: "DMA"
   nav:
     users: "ユーザー一覧"
     logs: "試合ログ"
@@ -75,6 +82,8 @@ ja:
     start_at: "開始日時"
     finish_at: "終了日時"
     confirm: "シーズンを削除しますか？"
+    message: "メッセージ"
+    modal_edit: "メッセージ編集"
   time:
     formats:
       default: "%Y年%-m月%-d日 %-H時%-M分"

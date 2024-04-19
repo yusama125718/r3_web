@@ -1,6 +1,9 @@
 en:
   language: "Language"
   delete: "Delete"
+  confirm: "Confirm"
+  close: "Close"
+  edit: "Edit"
   name: "Name"
   nopage: "The page is not found"
   backtop: "Back to Top"
@@ -38,6 +41,9 @@ en:
     jump: "Allow Jump"
     log_title: "Match Log"
     rank_title: "Ranking"
+    dma:
+      on: "DMA ON"
+      off: "DMA OFF"
   user:
     title: "Users"
     ex_title: "'s User Data"
@@ -61,6 +67,7 @@ en:
     double: "Double Disc"
     no_wall: "Boundaries Off"
     on_wall: "Boundaries On"
+    dma: "D.M.A."
   nav:
     users: "Users"
     logs: "Match Logs"
@@ -76,6 +83,8 @@ en:
     start_at: "Started at"
     finish_at: "Finished at"
     confirm: "Realy Delete Season?"
+    message: "message"
+    modal_edit: "Edit message"
   time:
     formats:
       default: "%-b %-d %-p %-I:%-M"

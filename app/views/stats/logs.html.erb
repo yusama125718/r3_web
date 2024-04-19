@@ -62,6 +62,13 @@
             <%= f.check_box :game_ex_speed_eq_any, { multiple: true, include_hidden: false }, "ex2" %>
             <label><%= t "stats.ex_2" %></label>
           </div>
+          <label><%= t "rule.dma" %></label>
+          <div class=".d-flex">
+            <%= f.check_box :dma_eq_any, { multiple: true, include_hidden: false }, true %>
+            <label><%= t "stats.dma.on" %></label>
+            <%= f.check_box :dma_eq_any, { multiple: true, include_hidden: false }, false %>
+            <label><%= t "stats.dma.off" %></label>
+          </div>
         <% end %>
       </div>
     </div>
@@ -83,6 +90,7 @@
         <th><%= t "stats.rule" %></th>
         <th><%= t "stats.jump" %></th>
         <th><%= t "stats.ex" %></th>
+        <th><%= t "rule.dma" %></th>
       </tr>
     </thead>
     <tbody>
@@ -102,6 +110,7 @@
           <td><%= logs.game_boundaries ? (t "rule.on_wall") : (t "rule.no_wall") %><%= logs.game_double ? (t "rule.double") : (t "rule.single") %><%= logs.score_max %><%= t "stats.point" %></td>
           <td><%= logs.hopping_allowed ? "ON" : "OFF" %></td>
           <td><%= logs.game_ex_speed %></td>
+          <td><%= logs.dma ? "ON" : "OFF" %></td>
         </tr>
       <% end %>
     </tbody>

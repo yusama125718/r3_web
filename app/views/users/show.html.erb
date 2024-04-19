@@ -127,6 +127,28 @@
       </tbody>
     </table>
     <br>
+    <p class="h4"><%= t "rule.dma" %></p>
+    <table class="table table-striped">
+      <tbody>
+        <tr>
+          <td><%= t "stats.rate" %></td>
+          <td><%= @user.dma_rate %></td>
+        </tr>
+        <tr>
+          <td><%= t "stats.win" %></td>
+          <td><%= @user.dma_win %></td>
+        </tr>
+        <tr>
+          <td><%= t "stats.lose" %></td>
+          <td><%= @user.dma_lose %></td>
+        </tr>
+        <tr>
+          <td><%= t "stats.win_p" %></td>
+          <td><%= @user.dma_lose == 0 ? @user.dma_win.to_f / @user.dma_lose.to_f : @user.dma_win %></td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
   </div>
   <p class="h3"><%= @info.name %><%= t "user.log_title" %></p>
   <div class="accordion mb-3" id="accordionExample">
@@ -193,6 +215,13 @@
               <%= f.check_box :game_ex_speed_eq_any, { multiple: true, include_hidden: false }, "ex2" %>
               <label><%= t "stats.ex_2" %></label>
             </div>
+            <label><%= t "rule.dma" %></label>
+            <div class=".d-flex">
+              <%= f.check_box :dma_eq_any, { multiple: true, include_hidden: false }, true %>
+              <label><%= t "stats.dma.on" %></label>
+              <%= f.check_box :dma_eq_any, { multiple: true, include_hidden: false }, false %>
+              <label><%= t "stats.dma.off" %></label>
+            </div>
           <% end %>
         </div>
       </div>
@@ -203,17 +232,18 @@
     <table class="table mb-3">
       <thead>
         <tr>
-        <th><%= t "stats.time" %></th>
-        <th><%= t "stats.red1" %></th>
-        <th><%= t "stats.red_score" %></th>
-        <th><%= t "stats.red_rate" %></th>
-        <th><%= t "stats.blue1" %></th>
-        <th><%= t "stats.blue_score" %></th>
-        <th><%= t "stats.blue_rate" %></th>
-        <th><%= t "stats.winner" %></th>
-        <th><%= t "stats.rule" %></th>
-        <th><%= t "stats.jump" %></th>
-        <th><%= t "stats.ex" %></th>
+          <th><%= t "stats.time" %></th>
+          <th><%= t "stats.red1" %></th>
+          <th><%= t "stats.red_score" %></th>
+          <th><%= t "stats.red_rate" %></th>
+          <th><%= t "stats.blue1" %></th>
+          <th><%= t "stats.blue_score" %></th>
+          <th><%= t "stats.blue_rate" %></th>
+          <th><%= t "stats.winner" %></th>
+          <th><%= t "stats.rule" %></th>
+          <th><%= t "stats.jump" %></th>
+          <th><%= t "stats.ex" %></th>
+          <th><%= t "rule.dma" %></th>
         </tr>
       </thead>
       <tbody>
@@ -232,7 +262,8 @@
 
             <td><%= logs.game_boundaries ? (t "rule.on_wall") : (t "rule.no_wall") %><%= logs.game_double ? (t "rule.double") : (t "rule.single") %><%= logs.score_max %>点</td>
             <td><%= logs.hopping_allowed ? "ON" : "OFF" %></td>
-            <td><%= logs.game_ex_speed %></td>ß
+            <td><%= logs.game_ex_speed %></td>
+            <td><%= logs.dma ? "ON" : "OFF" %></td>
           </tr>
         <% end %>
       </tbody>
