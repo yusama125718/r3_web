@@ -6,6 +6,7 @@ en:
   edit: "Edit"
   name: "Name"
   nopage: "The page is not found"
+  error: "The page has error"
   backtop: "Back to Top"
   search:
     title: "Search"
@@ -85,6 +86,16 @@ en:
     confirm: "Realy Delete Season?"
     message: "message"
     modal_edit: "Edit message"
+  flash:
+    delete_complete: "Delete Complete!"
+    delete_fail: "Delete failed"
+    season_during: "The selected season is in progress"
+    season_notthing: "Notthing season"
+    message_update: "Update season"
+    message_fail: "Failed to update season"
+    login: "Complete to login"
+    login_fail: "failed to login"
+    logout: "Complete to logout"
   time:
     formats:
       default: "%-b %-d %-p %-I:%-M"

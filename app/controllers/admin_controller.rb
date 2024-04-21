@@ -12,12 +12,12 @@ class AdminController < ApplicationController
     season = Season.find_by(id: params[:id])
     if (season.finished_at)
       if (season.destroy)
-        flash[:success] = "削除しました"
+        flash[:success] = (t "flash.delete_complete")
       else
-        flash[:warning] = "削除に失敗しました"
+        flash[:warning] = (t "flash.delete_fail")
       end
     else
-      flash[:warning] = "選択したシーズンは進行中です。"
+      flash[:warning] = (t "flash.season_during")
     end
     redirect_to action: :season
   end
@@ -29,13 +29,13 @@ class AdminController < ApplicationController
   def update_season
     season = Season.find_by(id: params[:id])
     if season.nil?
-      flash.now[:warning] = "シーズンが存在しません"
+      flash.now[:warning] = (t "flash.season_notthing")
     else
       season.message = params[:message]
       if season.save
-        flash[:success] = "メッセージを更新しました"
+        flash[:success] = (t "flash.message_update")
       else
-        flash.now[:warning] = "シーズンが存在しません"
+        flash.now[:warning] = (t "flash.message_fail")
       end
     end
     redirect_to action: :season

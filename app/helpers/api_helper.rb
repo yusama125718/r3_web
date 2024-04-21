@@ -24,20 +24,20 @@ module ApiHelper
     rate_diff = winner_rate - loser_rate
     case rate_diff
     when 101..nil
-      win = (20.0 * (-(1.0 / 100000.0) * ((rate_diff.to_f - 100.0) ** 2.0) + 1.0)).round
-      lose = (20.0 * (-(1.0 / 100000.0) * ((rate_diff.to_f - 100.0) ** 2.0) + 1.0) * level).round
+      win = (Settings.rate_base * (-(1.0 / 100000.0) * ((rate_diff.to_f - 100.0) ** 2.0) + 1.0)).round
+      lose = (Settings.rate_base * (-(1.0 / 100000.0) * ((rate_diff.to_f - 100.0) ** 2.0) + 1.0) * level).round
     when -100..100
       win = 20
-      lose = (20.0 * level).round
-    when -101..-499
-      win = (-20.0 * (0.0025 * rate_diff.to_f + 0.75)).round
-      lose = (20.0 * (-(1.0 / 100000.0) * ((rate_diff.to_f - 100.0) ** 2.0) + 1.0) * level).round
+      lose = (Settings.rate_base * level).round
+    when -499..-101
+      win = ((-1 * Settings.rate_base) * (0.0025 * rate_diff.to_f + 0.75)).round
+      lose = (Settings.rate_base * (-(1.0 / 100000.0) * ((rate_diff.to_f - 100.0) ** 2.0) + 1.0) * level).round
     when nil..-500
-      win = 20 * 2 
+      win = (Settings.rate_base * 2).round
       lose = 0
     end
-    if win < 0
-      win = 0
+    if win < 1
+      win = 1
     end
     if lose < 0
       lose = 0

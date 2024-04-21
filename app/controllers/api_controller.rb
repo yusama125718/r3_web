@@ -144,23 +144,47 @@ class ApiController < ApplicationController
           if game_boundaries && game_double
             w.ow_d_win += 1
             w.ow_d_rate += rate[:win]
+            if w.ow_d_rate > Settings.rate_max
+              w.ow_d_rate = 9999
+            end
             l.ow_d_lose += 1
             l.ow_d_rate -= rate[:lose]
+            if l.ow_d_rate < Settings.rate_min
+              l.ow_d_rate = 0
+            end
           elsif game_boundaries && !game_double
             w.ow_s_win += 1
             w.ow_s_rate += rate[:win]
+            if w.ow_s_rate > Settings.rate_max
+              w.ow_s_rate = 9999
+            end
             l.ow_s_lose += 1
             l.ow_s_rate -= rate[:lose]
+            if l.ow_s_rate < Settings.rate_min
+              l.ow_s_rate = 0
+            end
           elsif !game_boundaries && game_double
             w.nw_d_win += 1
             w.nw_d_rate += rate[:win]
+            if w.nw_d_rate > Settings.rate_max
+              w.nw_d_rate = 9999
+            end
             l.nw_d_lose += 1
             l.nw_d_rate -= rate[:lose]
+            if l.nw_s_rate < Settings.rate_min
+              l.nw_s_rate = 0
+            end
           elsif !game_boundaries && !game_double
             w.nw_s_win += 1
             w.nw_s_rate += rate[:win]
+            if w.nw_s_rate > Settings.rate_max
+              w.nw_s_rate = 9999
+            end
             l.nw_s_lose += 1
             l.nw_s_rate -= rate[:lose]
+            if w.nw_s_rate > Settings.rate_max
+              w.nw_s_rate = 9999
+            end
           end
           # dmaだった場合追加で処理する
           if dma

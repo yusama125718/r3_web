@@ -29,9 +29,6 @@
             <a class="nav-link active" aria-current="page" href="/">Home</a>
           </li>
           <li class="nav-item mb-2">
-            <a class="nav-link" href="/about">About</a>
-          </li>
-          <li class="nav-item mb-2">
             <a class="nav-link" href="<%= nw_s_stats_path %>"><%= t "rule.no_wall_single" %></a>
           </li>
           <li class="nav-item mb-2">
@@ -84,12 +81,14 @@
         </ul>
       </nav>
       <main class="flex-grow-1 bg-light overflow-y-scroll" style="padding: 10px;">
-        <% if flash[:warning] %>
-          <div class="alert alert-warning" role="alert"><%= flash[:warning] %></div>
-        <% end %>
-        <% if flash[:success] %>
-          <div class="alert alert-success" role="alert"><%= flash[:success] %></div>
-        <% end %>
+        <div id="flash">
+          <% if flash[:warning] %>
+            <div class="alert alert-warning" role="alert"><%= flash[:warning] %></div>
+          <% end %>
+          <% if flash[:success] %>
+            <div class="alert alert-success" role="alert"><%= flash[:success] %></div>
+          <% end %>
+        </div>
         <%= yield %>
         <br>
       </main>
