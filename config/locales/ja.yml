@@ -6,6 +6,7 @@ ja:
   edit: "編集"
   name: "名前"
   nopage: "お探しのページが見つかりませんでした"
+  error: "エラーが発生しました"
   backtop: "トップへ戻る"
   search:
     title: "絞り込み/検索"
@@ -84,6 +85,16 @@ ja:
     confirm: "シーズンを削除しますか？"
     message: "メッセージ"
     modal_edit: "メッセージ編集"
+  flash:
+    delete_complete: "削除しました"
+    delete_fail: "削除に失敗しました"
+    season_during: "選択したシーズンは進行中です"
+    season_notthing: "シーズンが存在しません"
+    message_update: "メッセージを更新しました"
+    message_fail: "メッセージの保存に失敗しました"
+    login: "ログインしました"
+    login_fail: "ログインに失敗しました"
+    logout: "ログアウトしました"
   time:
     formats:
       default: "%Y年%-m月%-d日 %-H時%-M分"

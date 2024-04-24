@@ -4,7 +4,7 @@ class ApiController < ApplicationController
 
   # リザルト受け取り処理
   def create
-    if Settings.api_key != params[:api_key] 
+    if Settings.api_key != params[:api_key] || params[:owner].blank? 
       render  'errors/404', status: :not_found
       return
     end
@@ -75,6 +75,7 @@ class ApiController < ApplicationController
     #     blueuser[1] = User.create!(name: blue[1], user_info: blue_info[1], season_id: season.id)
     #   end
     # end 
+    owner = params[:owner]
     dma = params[:dma] == "on"
     score_red = params[:score_a].to_i
     score_blue = params[:score_b].to_i
@@ -131,7 +132,7 @@ class ApiController < ApplicationController
         red_diff = "-" + rate[:lose].to_s
       end
       Match.transaction do
-        Match.create!(guid: guid, redname1: red[0], redname2: red[1], bluename1: blue[0], bluename2: blue[1], redscore: score_red, bluescore: score_blue, winner1: winner_name[0], winner2: winner_name[1], hopping_allowed: hopping_allowed, game_double: game_double, game_ex_speed: game_ex_speed, game_boundaries: game_boundaries, score_max: score_max, is_single: is_single, season_id: season.id, reddiff1: red_diff, bluediff1: blue_diff, dma: dma)
+        Match.create!(guid: guid, owner: owner, redname1: red[0], redname2: red[1], bluename1: blue[0], bluename2: blue[1], redscore: score_red, bluescore: score_blue, winner1: winner_name[0], winner2: winner_name[1], hopping_allowed: hopping_allowed, game_double: game_double, game_ex_speed: game_ex_speed, game_boundaries: game_boundaries, score_max: score_max, is_single: is_single, season_id: season.id, reddiff1: red_diff, bluediff1: blue_diff, dma: dma)
         if is_single
           if winner == "red"
             w = reduser[0]
@@ -144,23 +145,47 @@ class ApiController < ApplicationController
           if game_boundaries && game_double
             w.ow_d_win += 1
             w.ow_d_rate += rate[:win]
+            if w.ow_d_rate > Settings.rate_max
+              w.ow_d_rate = 9999
+            end
             l.ow_d_lose += 1
             l.ow_d_rate -= rate[:lose]
+            if l.ow_d_rate < Settings.rate_min
+              l.ow_d_rate = 0
+            end
           elsif game_boundaries && !game_double
             w.ow_s_win += 1
             w.ow_s_rate += rate[:win]
+            if w.ow_s_rate > Settings.rate_max
+              w.ow_s_rate = 9999
+            end
             l.ow_s_lose += 1
             l.ow_s_rate -= rate[:lose]
+            if l.ow_s_rate < Settings.rate_min
+              l.ow_s_rate = 0
+            end
           elsif !game_boundaries && game_double
             w.nw_d_win += 1
             w.nw_d_rate += rate[:win]
+            if w.nw_d_rate > Settings.rate_max
+              w.nw_d_rate = 9999
+            end
             l.nw_d_lose += 1
             l.nw_d_rate -= rate[:lose]
+            if l.nw_s_rate < Settings.rate_min
+              l.nw_s_rate = 0
+            end
           elsif !game_boundaries && !game_double
             w.nw_s_win += 1
             w.nw_s_rate += rate[:win]
+            if w.nw_s_rate > Settings.rate_max
+              w.nw_s_rate = 9999
+            end
             l.nw_s_lose += 1
             l.nw_s_rate -= rate[:lose]
+            if w.nw_s_rate > Settings.rate_max
+              w.nw_s_rate = 9999
+            end
           end
           # dmaだった場合追加で処理する
           if dma

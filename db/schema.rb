@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_17_094832) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_23_131041) do
   create_table "accounts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
     t.string "password_digest"
@@ -42,6 +42,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_17_094832) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "dma", default: false, null: false
+    t.string "owner"
     t.index ["season_id"], name: "index_matches_on_season_id"
   end
 
