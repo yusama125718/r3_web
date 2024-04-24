@@ -29,7 +29,7 @@ module ApiHelper
     when -100..100
       win = 20
       lose = (20.0 * level).round
-    when -101..-499
+    when -499..-101
       win = (-20.0 * (0.0025 * rate_diff.to_f + 0.75)).round
       lose = (20.0 * (-(1.0 / 100000.0) * ((rate_diff.to_f - 100.0) ** 2.0) + 1.0) * level).round
     when nil..-500
