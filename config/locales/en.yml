@@ -96,6 +96,17 @@ en:
     login: "Complete to login"
     login_fail: "failed to login"
     logout: "Complete to logout"
+    user: 
+      change: "Conplete to change name"
+      deleteall: "Delete all data"
+      delete: "'s data is delete"
   time:
     formats:
       default: "%-b %-d %-p %-I:%-M"
+  views:
+    pagination:
+      previous: "« Previous"
+      next: "Next »"
+      first: "First"
+      last: "Last"
+      truncate: "..."

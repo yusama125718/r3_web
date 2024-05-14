@@ -62,10 +62,9 @@ tbody tr:hover {
 }
 </style>
 
-<script>
+<script type="module">
   $(function($) {
     $(".clickable-row").css("cursor","pointer").click(function() {
-      console.log("hoge")
       location.href = $(this).data("href")
     });
   });

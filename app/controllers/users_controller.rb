@@ -30,7 +30,7 @@ class UsersController < ApplicationController
       info.name = params[:rename][:name]
       info.save!
       NameHistory.create!(name: params[:rename][:name], user_info: info)
-      flash[:success] = "名前を変更しました"
+      flash[:success] = t "flash.user.change"
     end
     redirect_to user_show_path(user_id: params[:user_id], info: params[:info])
   end
@@ -39,19 +39,19 @@ class UsersController < ApplicationController
     if logged_in?
       if params[:season].blank?
         if UserInfo.find_by(id: params[:id]).destroy
-          flash[:success] = "全データを削除しました"
+          flash[:success] = t "flash.user.deleteall"
           redirect_to users_path
-        else
-          flash[:warning] = "削除に失敗しました"
+        elsew
+          flash[:warning] = t "flash.delete_fail"
           redirect_to request.referer
         end
       else
         season = Season.find_by(id: params[:season])
         if season.users.find_by(id: params[:id]).delete
-          flash[:success] = season.name + "のデータを削除しました"
+          flash[:success] = season.name + (t "flash.user.delete")
           redirect_to users_path
         else
-          flash[:warning] = "削除に失敗しました"
+          flash[:warning] = t "flash.delete_fail"
           redirect_to request.referer
         end
       end

@@ -95,6 +95,18 @@ ja:
     login: "ログインしました"
     login_fail: "ログインに失敗しました"
     logout: "ログアウトしました"
+    user: 
+      change: "名前を変更しました"
+      deleteall: "全データを削除しました"
+      delete_fail: "削除に失敗しました"
+      delete: "のデータを削除しました"
   time:
     formats:
       default: "%Y年%-m月%-d日 %-H時%-M分"
+  views:
+    pagination:
+      previous: "« 前ページ"
+      next: "次ページ »"
+      first: "最初"
+      last: "最後"
+      truncate: "..."

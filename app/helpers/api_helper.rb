@@ -27,10 +27,10 @@ module ApiHelper
       win = (Settings.rate_base * (-(1.0 / 100000.0) * ((rate_diff.to_f - 100.0) ** 2.0) + 1.0)).round
       lose = (Settings.rate_base * (-(1.0 / 100000.0) * ((rate_diff.to_f - 100.0) ** 2.0) + 1.0) * level).round
     when -100..100
-      win = 20
+      win = (Settings.rate_base).round
       lose = (Settings.rate_base * level).round
     when -499..-101
-      win = ((-1 * Settings.rate_base) * (0.0025 * rate_diff.to_f + 0.75)).round
+      win = ((Settings.rate_base) * (-0.0025 * rate_diff.to_f + 0.75)).round
       lose = (Settings.rate_base * (-(1.0 / 100000.0) * ((rate_diff.to_f - 100.0) ** 2.0) + 1.0) * level).round
     when nil..-500
       win = (Settings.rate_base * 2).round
@@ -145,7 +145,8 @@ module ApiHelper
                       :nowall_double => season.users.where.not(nw_d_win: 0, nw_d_lose: 0).count().to_s,
                       :onwall_single => season.users.where.not(ow_s_win: 0, ow_s_lose: 0).count().to_s,
                       :onwall_double => season.users.where.not(ow_d_win: 0, ow_d_lose: 0).count().to_s,
-                      :dma => season.users.where.not(dma_win: 0, dma_lose: 0).count().to_s}
+                      :dma => season.users.where.not(dma_win: 0, dma_lose: 0).count().to_s,
+                      :all => season.users.count().to_s}
     data[:message] = season.message
     return data
   end

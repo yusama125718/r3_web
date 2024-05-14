@@ -4,4 +4,7 @@ class R3logController < ApplicationController
 
   def about
   end
+
+  def howto
+  end
 end

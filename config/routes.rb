@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   root :to => 'r3log#top'
   get 'about' => "r3log#about"
+  get 'howto' => 'r3log#howto'
 
   get  '/login',   to: 'sessions#new'
   post '/login',   to: 'sessions#create'
